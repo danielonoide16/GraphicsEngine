@@ -1,0 +1,81 @@
+############################
+# MAVEN
+############################
+/target/
+/pom.xml.tag
+/pom.xml.releaseBackup
+/pom.xml.versionsBackup
+/log/
+/release.properties
+
+
+############################
+# JAVA
+############################
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+
+# Logs
+*.log
+
+# JVM crash logs
+hs_err_pid*
+replay_pid*
+
+
+############################
+# VS CODE
+############################
+.vscode/
+.history/
+.workspace/
+*.code-workspace
+
+# Extensions / extra configs
+.vscode-test/
+
+
+############################
+# OS-SPECIFIC FILES
+############################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.nfs*
+
+
+############################
+# IDEs (por si acaso)
+############################
+
+# IntelliJ / JetBrains
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
