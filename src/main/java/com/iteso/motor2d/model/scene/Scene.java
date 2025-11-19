@@ -35,10 +35,11 @@ public class Scene
     /**
      * Crea y agrega un Rectangle por defecto (con color e id).
      */
-    public void addRectangle() 
+    public void addRectangle(int x, int y, int width, int height, Color color) 
     {
         int id = IdGenerator.getInstance().generateId();
-        Rectangle r = new Rectangle(50, 50, 120, 80, Color.BLUE, id);
+        //Rectangle r = new Rectangle(50, 50, 120, 80, Color.BLUE, id);
+        Rectangle r = new Rectangle(x, y, width, height, color, id);
         shapes.add(r);
         selectedShape = r;
     }
@@ -46,10 +47,11 @@ public class Scene
     /**
      * Crea y agrega un Circle por defecto (con color e id).
      */
-    public void addCircle() 
+    public void addCircle(int x, int y, int radius, Color color) 
     {
         int id = IdGenerator.getInstance().generateId();
-        Circle c = new Circle(200, 200, 40, Color.RED, id);
+        //Circle c = new Circle(200, 200, 40, Color.RED, id);
+        Circle c = new Circle(x, y, radius, color, id);
         shapes.add(c);
         selectedShape = c;
     }
@@ -58,13 +60,14 @@ public class Scene
      * Crea y agrega un Triangle por defecto (con color e id).
      * Triángulo definido por 3 vértices.
      */
-    public void addTriangle() 
+    public void addTriangle(int x, int y, int width, int height, Color color) 
     {
         int id = IdGenerator.getInstance().generateId();
         // int[] px = {300, 340, 260};
         // int[] py = {300, 360, 360};
         
-        Triangle t = new Triangle(300, 300, 100, 50, Color.GREEN, id);
+        //Triangle t = new Triangle(300, 300, 100, 50, Color.GREEN, id);
+        Triangle t = new Triangle(x, y, width, height, color, id);
         shapes.add(t);
         selectedShape = t;
     }

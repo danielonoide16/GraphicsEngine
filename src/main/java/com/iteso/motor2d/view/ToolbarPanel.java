@@ -25,7 +25,8 @@ public class ToolbarPanel extends JPanel
 
     public ToolbarPanel() 
     {
-        setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        //setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        setLayout(new WrapLayout(FlowLayout.LEFT, 0, 0));
 
         btnAddRectangle = new JButton("Add Rectangle");
         btnAddCircle = new JButton("Add Circle");

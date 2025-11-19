@@ -38,7 +38,8 @@ public class CollisionMath
     {
 
         // 1. Si el rectángulo intersecta el bounding-box del triángulo
-        if (!intersectsBoundingBox(rect, tri)) return false;
+        //if (!intersectsBoundingBox(rect, tri)) return false;
+        if(!intersects(rect, tri.getBoundingBox())) return false;
 
         // 2. Si cualquier vértice del rect está dentro del triángulo
         if (pointInTriangle(rect.getX(), rect.getY(), tri)) return true;
@@ -84,7 +85,8 @@ public class CollisionMath
     {
 
         // 1. Checar bounding boxes
-        if (!intersectsBoundingBox(a, b)) return false;
+        //if (!intersectsBoundingBox(a, b)) return false;
+        if(!intersects(a.getBoundingBox(), b.getBoundingBox())) return false;
 
         // 2. Un vértice dentro del otro triángulo
         for (double[] p : triVertices(a)) {
@@ -186,17 +188,6 @@ public class CollisionMath
         return px >= r.getX() && px <= r.getX() + r.getWidth() &&
                py >= r.getY() && py <= r.getY() + r.getHeight();
     }
-
-    private static boolean intersectsBoundingBox(Rectangle r, Triangle t) 
-    {
-        return intersects(r, t.getBoundingBox());
-    }
-
-    private static boolean intersectsBoundingBox(Triangle a, Triangle b) 
-    {
-        return intersects(a.getBoundingBox(), b.getBoundingBox());
-    }
-
 
     private static boolean pointInTriangle(double px, double py, Triangle t) 
     {

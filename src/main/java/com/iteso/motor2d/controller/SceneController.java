@@ -1,5 +1,14 @@
 package com.iteso.motor2d.controller;
 
+import java.awt.Color;
+
+import javax.swing.BoxLayout;
+import javax.swing.JColorChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import com.iteso.motor2d.model.scene.Scene;
 import com.iteso.motor2d.view.MainWindow;
 import com.iteso.motor2d.view.ToolbarPanel;
@@ -19,9 +28,25 @@ public class SceneController
     public void connectToolbar(ToolbarPanel tb) 
     {
         // Agregar figuras
-        tb.getBtnAddRectangle().addActionListener(e -> addRectangle());
-        tb.getBtnAddCircle().addActionListener(e -> addCircle());
-        tb.getBtnAddTriangle().addActionListener(e -> addTriangle());
+        // tb.getBtnAddRectangle().addActionListener(e -> addRectangle());
+        // tb.getBtnAddCircle().addActionListener(e -> addCircle());
+        // tb.getBtnAddTriangle().addActionListener(e -> addTriangle());
+
+        tb.getBtnAddRectangle().addActionListener(e -> {
+            if(createShapeWithDialog("rectangle"))
+                updateUI();
+        });
+
+        tb.getBtnAddCircle().addActionListener(e -> {
+            if(createShapeWithDialog("circle"))
+                updateUI();
+        });
+
+        tb.getBtnAddTriangle().addActionListener(e -> {
+            if(createShapeWithDialog("triangle"))
+                updateUI();
+        });
+
 
         // Selección
         tb.getShapeSelector().addActionListener(e -> {
@@ -56,8 +81,8 @@ public class SceneController
         // Redimensionar
         tb.getBtnApplySize().addActionListener(e -> {
             try {
-                double w = Double.parseDouble(tb.getTxtWidth().getText());
-                double h = Double.parseDouble(tb.getTxtHeight().getText());
+                int w = Integer.parseInt(tb.getTxtWidth().getText());
+                int h = Integer.parseInt(tb.getTxtHeight().getText());
                 resizeSelected(w, h);
             } catch (Exception ex) {
                 // mensaje lo maneja UI, aquí nada
@@ -67,26 +92,26 @@ public class SceneController
 
     // Metodos de control
 
-    public void addRectangle() 
-    {
-        System.out.println("Adding Rectangle");
-        scene.addRectangle();
-        updateUI();
-    }
+    // public void addRectangle() 
+    // {
+    //     System.out.println("Adding Rectangle");
+    //     scene.addRectangle();
+    //     updateUI();
+    // }
 
-    public void addCircle() 
-    {
-        System.out.println("Adding Circle");
-        scene.addCircle();
-        updateUI();
-    }
+    // public void addCircle() 
+    // {
+    //     System.out.println("Adding Circle");
+    //     scene.addCircle();
+    //     updateUI();
+    // }
 
-    public void addTriangle() 
-    {
-        System.out.println("Adding Triangle");
-        scene.addTriangle();
-        updateUI();
-    }
+    // public void addTriangle() 
+    // {
+    //     System.out.println("Adding Triangle");
+    //     scene.addTriangle();
+    //     updateUI();
+    // }
 
     public void selectShape(int index) 
     {
@@ -122,4 +147,95 @@ public class SceneController
         // 3) Muestra colisiones
         window.displayCollisions(scene.getCollisionReport());
     }
+
+
+
+    private boolean createShapeWithDialog(String type) 
+    {
+        // panel dinámico según la figura
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // Posición
+        JTextField txtX = new JTextField(5);
+        JTextField txtY = new JTextField(5);
+
+        panel.add(new JLabel("Posición X:"));
+        panel.add(txtX);
+        panel.add(new JLabel("Posición Y:"));
+        panel.add(txtY);
+
+        // Campos que cambian según la figura
+        JTextField txtA = new JTextField(5);
+        JTextField txtB = new JTextField(5);
+
+        switch(type.toLowerCase()) {
+            case "rectangle":
+                panel.add(new JLabel("Ancho:"));
+                panel.add(txtA);
+                panel.add(new JLabel("Alto:"));
+                panel.add(txtB);
+                break;
+
+            case "circle":
+                panel.add(new JLabel("Radio:"));
+                panel.add(txtA);
+                break;
+
+            case "triangle":
+                panel.add(new JLabel("Base:"));
+                panel.add(txtA);
+                panel.add(new JLabel("Altura:"));
+                panel.add(txtB);
+                break;
+        }
+
+        // Mostrar el panel
+        int result = JOptionPane.showConfirmDialog(window, panel, 
+            "Crear " + type, JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result != JOptionPane.OK_OPTION)
+            return false;
+
+        try {
+            int x = Integer.parseInt(txtX.getText());
+            int y = Integer.parseInt(txtY.getText());
+
+            // Color
+            Color color = JColorChooser.showDialog(window, "Elige color", Color.BLUE);
+            if (color == null) return false;
+
+            switch(type.toLowerCase()) {
+
+                case "rectangle": {
+                    int w = Integer.parseInt(txtA.getText());
+                    int h = Integer.parseInt(txtB.getText());
+                    scene.addRectangle(x, y, w, h, color);
+                    return true;
+                }
+
+                case "circle": {
+                    int r = Integer.parseInt(txtA.getText());
+                    scene.addCircle(x, y, r, color);
+                    return true;
+                }
+
+                case "triangle": {
+                    int base = Integer.parseInt(txtA.getText());
+                    int height = Integer.parseInt(txtB.getText());
+                    scene.addTriangle(x, y, base, height, color);
+                    return true;
+                }
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(window, "Datos inválidos", 
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return false;
+    }
+
+
 }

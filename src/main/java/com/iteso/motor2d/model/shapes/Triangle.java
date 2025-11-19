@@ -29,12 +29,12 @@ public class Triangle extends Shape2D
         this.py = py.clone();
     }
 
-    public Triangle(int x, int y, int base, int width, Color color, int id)
+    public Triangle(int x, int y, int width, int height, Color color, int id)
     {
         super(x, y, color, id);
         this.px = new int[3];
         this.py = new int[3];
-        setRightTriangle(base, width);
+        setRightTriangle(width, height);
     }
 
     @Override
@@ -42,11 +42,6 @@ public class Triangle extends Shape2D
     {
         g.setColor(color);
         g.drawPolygon(px, py, 3);
-        // int width = getWidth();
-        // int height = getHeight();
-        //draw triangle using width and height
-        //g.drawPolygon(new int[]{x, x + width, x}, new int[]{y, y, y + height}, 3);
-
     }
 
 
@@ -95,17 +90,17 @@ public class Triangle extends Shape2D
     }
 
 
-    public void setRightTriangle(int base, int height)
+    public void setRightTriangle(int width, int height)
     {
         // el primer punto es el origen (x,y)
         px[0] = x;
         py[0] = y;
 
-        px[1] = x + base;
+        px[1] = x + width;
         py[1] = y;
 
         px[2] = x;
-        py[2] = y + height;
+        py[2] = y - height;
     }
 
     @Override
