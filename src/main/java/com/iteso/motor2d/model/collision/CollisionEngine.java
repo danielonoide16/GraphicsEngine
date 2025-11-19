@@ -15,23 +15,24 @@ import java.util.List;
 
 /**
  * CollisionEngine
- * ----------------
  * Motor singleton encargado de detectar colisiones entre Shape2D.
  *
- * Comentarios en español: Esta clase construye objetos java.awt.Shape
+ * Esta clase construye objetos java.awt.Shape
  * a partir de las clases del modelo (Rectangle, Circle, Triangle)
  * y usa java.awt.geom.Area para comprobar intersecciones geométricas.
  */
-public final class CollisionEngine {
+public final class CollisionEngine 
+{
 
     // Instancia única (singleton)
     private static final CollisionEngine INSTANCE = new CollisionEngine();
 
     // Constructor privado para evitar instanciación externa
-    private CollisionEngine() { }
+    private CollisionEngine() {}
 
     // Método para obtener la instancia singleton
-    public static CollisionEngine getInstance() {
+    public static CollisionEngine getInstance() 
+    {
         return INSTANCE;
     }
 
@@ -42,29 +43,48 @@ public final class CollisionEngine {
      * @return lista con pares de figuras que colisionan
      * @throws IllegalArgumentException si shapes es null o contiene nulls
      */
-    public List<CollisionPair> detectCollisions(List<? extends Shape2D> shapes) {
-        if (shapes == null) {
+
+    public List<CollisionPair> detectCollisions(List<? extends Shape2D> shapes) 
+    {
+        if (shapes == null) 
+        {
             throw new IllegalArgumentException("Shape list cannot be null.");
         }
 
         List<CollisionPair> collisions = new ArrayList<>();
 
         // Comparación de todos contra todos (i < j)
-        for (int i = 0; i < shapes.size(); i++) {
+        for (int i = 0; i < shapes.size(); i++) 
+        {
             Shape2D a = shapes.get(i);
-            if (a == null) throw new IllegalArgumentException("Shape element cannot be null.");
+            if (a == null) 
+            {
+                throw new IllegalArgumentException("Shape element cannot be null.");
+            }
 
             Shape awtShape = toAwtShape(a);
-            if (awtShape == null) continue; // Si no se puede representar, saltar
+            if(awtShape == null) 
+            {
+                continue; 
+            }
 
-            for (int j = i + 1; j < shapes.size(); j++) {
+            for(int j = i + 1; j < shapes.size(); j++) 
+            {
                 Shape2D b = shapes.get(j);
-                if (b == null) throw new IllegalArgumentException("Shape element cannot be null.");
+                if(b == null) 
+                {
+                    throw new IllegalArgumentException("Shape element cannot be null.");
+                }
 
                 Shape bwtShape = toAwtShape(b);
-                if (bwtShape == null) continue;
 
-                if (checkIntersection(awtShape, bwtShape)) {
+                if(bwtShape == null) 
+                {
+                    continue;
+                }
+
+                if(checkIntersection(awtShape, bwtShape)) 
+                {
                     collisions.add(new CollisionPair(a, b));
                 }
             }
@@ -79,20 +99,28 @@ public final class CollisionEngine {
      * @param s figura del modelo
      * @return java.awt.Shape o null si no es representable
      */
-    private Shape toAwtShape(Shape2D s) {
-        if (s instanceof Rectangle rect) {
+    private Shape toAwtShape(Shape2D s) 
+    {
+        if (s instanceof Rectangle rect) 
+        {
             // En nuestro modelo Rectangle guarda x,y,width,height (x,y como esquina superior izquierda)
             return new Rectangle2D.Double(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        } else if (s instanceof Circle circ) {
+        } 
+        else if (s instanceof Circle circ) 
+        {
             // Circle guarda x,y como centro (según definición previa), radius
             double r = circ.getRadius();
             return new Ellipse2D.Double(circ.getX() - r, circ.getY() - r, r * 2, r * 2);
-        } else if (s instanceof Triangle tri) {
+        } 
+        else if (s instanceof Triangle tri) 
+        {
             int[] px = tri.getPx();
             int[] py = tri.getPy();
             if (px == null || py == null || px.length != 3 || py.length != 3) return null;
             return new Polygon(px, py, 3);
-        } else {
+        } 
+        else 
+        {
             // Si hay nuevas figuras no soportadas, retornar null
             return null;
         }
@@ -105,7 +133,8 @@ public final class CollisionEngine {
      * @param b segundo shape
      * @return true si intersectan
      */
-    private boolean checkIntersection(Shape a, Shape b) {
+    private boolean checkIntersection(Shape a, Shape b) 
+    {
         try {
             Area areaA = new Area(a);
             Area areaB = new Area(b);
@@ -121,20 +150,30 @@ public final class CollisionEngine {
     /**
      * Clase estática que representa un par de figuras en colisión.
      */
-    public static class CollisionPair {
+    public static class CollisionPair 
+    {
         private final Shape2D first;
         private final Shape2D second;
 
-        public CollisionPair(Shape2D first, Shape2D second) {
+        public CollisionPair(Shape2D first, Shape2D second) 
+        {
             this.first = first;
             this.second = second;
         }
 
-        public Shape2D getFirst() { return first; }
-        public Shape2D getSecond() { return second; }
+        public Shape2D getFirst() 
+        { 
+            return first; 
+        }
+
+        public Shape2D getSecond() 
+        { 
+            return second; 
+        }
 
         @Override
-        public String toString() {
+        public String toString() 
+        {
             return first.toString() + " <-> " + second.toString();
         }
     }

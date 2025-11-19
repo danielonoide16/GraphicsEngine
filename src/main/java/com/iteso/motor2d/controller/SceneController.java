@@ -4,18 +4,20 @@ import com.iteso.motor2d.model.scene.Scene;
 import com.iteso.motor2d.view.MainWindow;
 import com.iteso.motor2d.view.ToolbarPanel;
 
-public class SceneController {
+public class SceneController 
+{
 
     private Scene scene;
     private MainWindow window;
 
-    public SceneController(Scene scene, MainWindow window) {
+    public SceneController(Scene scene, MainWindow window) 
+    {
         this.scene = scene;
         this.window = window;
     }
 
-    public void connectToolbar(ToolbarPanel tb) {
-
+    public void connectToolbar(ToolbarPanel tb) 
+    {
         // Agregar figuras
         tb.getBtnAddRectangle().addActionListener(e -> addRectangle());
         tb.getBtnAddCircle().addActionListener(e -> addCircle());
@@ -25,6 +27,23 @@ public class SceneController {
         tb.getShapeSelector().addActionListener(e -> {
             int i = tb.getShapeSelector().getSelectedIndex();
             selectShape(i);
+        });
+
+        //Remover figuras
+        tb.getBtnRemove().addActionListener(e -> 
+        {
+            scene.removeShape(scene.getSelectedShape());
+
+            int newIndex = tb.getShapeSelector().getSelectedIndex() - 1;
+
+            if(newIndex < 0 && scene.getShapes().size() > 0) 
+                {
+                newIndex = 0; // select first if we removed the first one
+            }
+
+            scene.selectShape(newIndex);
+            updateUI();
+
         });
 
         // Movimientos
@@ -45,59 +64,59 @@ public class SceneController {
         });
     }
 
-    // ------------------- Métodos de control -------------------
+    // Metodos de control
 
-    public void addRectangle() {
+    public void addRectangle() 
+    {
         System.out.println("Adding Rectangle");
         scene.addRectangle();
         updateUI();
     }
 
-    public void addCircle() {
+    public void addCircle() 
+    {
         System.out.println("Adding Circle");
         scene.addCircle();
         updateUI();
     }
 
-    public void addTriangle() {
+    public void addTriangle() 
+    {
         System.out.println("Adding Triangle");
         scene.addTriangle();
         updateUI();
     }
 
-    public void selectShape(int index) {
+    public void selectShape(int index) 
+    {
         System.out.println("Shape selected, index: " + index);
         scene.selectShape(index);
         updateUI();
     }
 
-    public void moveSelected(int dx, int dy) {
+    public void moveSelected(int dx, int dy) 
+    {
         System.out.println("Moving shape: " + scene.getSelectedShape());
         scene.moveSelected(dx, dy);
         updateUI();
     }
 
-    public void resizeSelected(double w, double h) {
+    public void resizeSelected(double w, double h) 
+    {
         scene.resizeSelected(w, h);
         updateUI();
     }
 
-    private void updateUI() {
+    private void updateUI() 
+    {
         // 1) Actualiza lista de nombres de figuras
        window.getToolbarPanel().updateShapeList(
             scene.getShapeNames(),
             scene.getSelectedIndex()
         );
 
-
-        // window.getToolbarPanel().getShapeSelector().addActionListener(e -> {
-        //     int i = window.getToolbarPanel().getShapeSelector().getSelectedIndex();
-        //     selectShape(i);
-        // });
-
         // 2) Redibuja el canvas
         window.getCanvasPanel().setShapes(scene.getShapes());
-        //window.getCanvasPanel().repaint();
 
         // 3) Muestra colisiones
         window.displayCollisions(scene.getCollisionReport());

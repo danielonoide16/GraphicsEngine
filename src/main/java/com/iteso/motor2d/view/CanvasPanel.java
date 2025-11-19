@@ -31,7 +31,7 @@ public class CanvasPanel extends JPanel
     @Override
     protected void paintComponent(Graphics g) 
     {
-        System.out.println("Paint component");
+        //System.out.println("Paint component");
         super.paintComponent(g);
 
         if (shapes == null) return;

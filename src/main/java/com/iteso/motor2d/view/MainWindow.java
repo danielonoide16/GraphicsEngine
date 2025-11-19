@@ -4,14 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import com.iteso.motor2d.controller.SceneController;
 
-public class MainWindow extends JFrame {
-
+public class MainWindow extends JFrame 
+{
     private ToolbarPanel toolbarPanel;
     private CanvasPanel canvasPanel;
     private JTextArea collisionArea;
 
-    public MainWindow() {
-        setTitle("Physics Engine - Collision Demo");
+    public MainWindow() 
+    {
+        setTitle("Game engine");
         setSize(1980, 1080);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -30,14 +31,23 @@ public class MainWindow extends JFrame {
         setVisible(true);
     }
 
-    public CanvasPanel getCanvasPanel() { return canvasPanel; }
-    public ToolbarPanel getToolbarPanel() { return toolbarPanel; }
+    public CanvasPanel getCanvasPanel() 
+    { 
+        return canvasPanel; 
+    }
 
-    public void displayCollisions(String text) {
+    public ToolbarPanel getToolbarPanel() 
+    { 
+        return toolbarPanel; 
+    }
+
+    public void displayCollisions(String text) 
+    {
         collisionArea.setText(text);
     }
 
-    public void setController(SceneController controller) {
+    public void setController(SceneController controller) 
+    {
         controller.connectToolbar(toolbarPanel);
     }
 }

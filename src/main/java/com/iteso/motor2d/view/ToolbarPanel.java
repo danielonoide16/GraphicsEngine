@@ -2,15 +2,16 @@ package com.iteso.motor2d.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
-public class ToolbarPanel extends JPanel {
+public class ToolbarPanel extends JPanel 
+{
 
     private JButton btnAddRectangle;
     private JButton btnAddCircle;
     private JButton btnAddTriangle;
 
     private JComboBox<String> shapeSelector;
+    private JButton btnRemove;
 
     private JButton btnMoveUp;
     private JButton btnMoveDown;
@@ -22,12 +23,9 @@ public class ToolbarPanel extends JPanel {
 
     private JButton btnApplySize;
 
-    // Guardamos el listener para poder desactivarlo temporalmente
-    private ActionListener comboListener;
-
-    public ToolbarPanel() {
-
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+    public ToolbarPanel() 
+    {
+        setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
         btnAddRectangle = new JButton("Add Rectangle");
         btnAddCircle = new JButton("Add Circle");
@@ -35,6 +33,8 @@ public class ToolbarPanel extends JPanel {
 
         shapeSelector = new JComboBox<>();
         shapeSelector.setPreferredSize(new Dimension(150, 25));
+
+        btnRemove = new JButton("Remove");
 
         btnMoveUp = new JButton("↑");
         btnMoveDown = new JButton("↓");
@@ -52,6 +52,8 @@ public class ToolbarPanel extends JPanel {
 
         add(new JLabel("   Select Shape:"));
         add(shapeSelector);
+
+        add(btnRemove);
 
         add(new JLabel("   Move:"));
         add(btnMoveUp);
@@ -72,6 +74,7 @@ public class ToolbarPanel extends JPanel {
 
     public JComboBox<String> getShapeSelector() { return shapeSelector; }
 
+    public JButton getBtnRemove() { return btnRemove; }
     public JButton getBtnMoveUp() { return btnMoveUp; }
     public JButton getBtnMoveDown() { return btnMoveDown; }
     public JButton getBtnMoveLeft() { return btnMoveLeft; }
@@ -82,30 +85,20 @@ public class ToolbarPanel extends JPanel {
     public JButton getBtnApplySize() { return btnApplySize; }
 
 
-    // ---------- Registro del Controller ----------
-    public void setComboBoxListener(ActionListener listener) {
-        this.comboListener = listener;
-        shapeSelector.addActionListener(listener);
-    }
-
-
     // ---------- ACTUALIZACIÓN SILENCIOSA DEL DROPDOWN ----------
-    public void updateShapeList(java.util.List<String> names, int selectedIndex) {
-
-        // Desactivar listener temporalmente
-        if (comboListener != null)
-            shapeSelector.removeActionListener(comboListener);
-
+    public void updateShapeList(java.util.List<String> names, int selectedIndex) 
+    {
         // Repoblar sin disparar eventos
         shapeSelector.removeAllItems();
-        for (String s : names) shapeSelector.addItem(s);
+        for (String s : names) 
+        {
+            shapeSelector.addItem(s);
+        }
 
         // Restaurar selección
         if (selectedIndex >= 0 && selectedIndex < names.size())
+        {
             shapeSelector.setSelectedIndex(selectedIndex);
-
-        // Restaurar listener
-        if (comboListener != null)
-            shapeSelector.addActionListener(comboListener);
+        }
     }
 }
