@@ -2,6 +2,8 @@ package com.iteso.motor2d.model.shapes;
 
 import java.awt.*;
 
+import com.iteso.motor2d.model.collision.CollisionMath;
+
 /**
  * Representa un círculo.
  */
@@ -50,7 +52,25 @@ public class Circle extends Shape2D
     @Override
     public boolean intersects(Shape2D other) 
     {
-        return false; // Se implementará en CollisionDetector
+        return other.intersectsWithCircle(this);
+    }
+
+    @Override 
+    public boolean intersectsWithRectangle(Rectangle r)
+    {
+        return CollisionMath.intersects(r, this);
+    }
+
+    @Override
+    public boolean intersectsWithCircle(Circle c)
+    {
+        return CollisionMath.intersects(c, this);
+    }
+
+    @Override
+    public boolean intersectsWithTriangle(Triangle t)
+    {
+        return CollisionMath.intersects(this, t);
     }
 
     @Override

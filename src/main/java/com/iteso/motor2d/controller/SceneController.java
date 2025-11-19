@@ -46,11 +46,12 @@ public class SceneController
 
         });
 
+        final int STEP = 20;
         // Movimientos
-        tb.getBtnMoveUp().addActionListener(e -> moveSelected(0, -10));
-        tb.getBtnMoveDown().addActionListener(e -> moveSelected(0, 10));
-        tb.getBtnMoveLeft().addActionListener(e -> moveSelected(-10, 0));
-        tb.getBtnMoveRight().addActionListener(e -> moveSelected(10, 0));
+        tb.getBtnMoveUp().addActionListener(e -> moveSelected(0, -STEP));
+        tb.getBtnMoveDown().addActionListener(e -> moveSelected(0, STEP));
+        tb.getBtnMoveLeft().addActionListener(e -> moveSelected(-STEP, 0));
+        tb.getBtnMoveRight().addActionListener(e -> moveSelected(STEP, 0));
 
         // Redimensionar
         tb.getBtnApplySize().addActionListener(e -> {

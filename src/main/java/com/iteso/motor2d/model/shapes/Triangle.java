@@ -2,8 +2,10 @@ package com.iteso.motor2d.model.shapes;
 
 import java.awt.*;
 
+import com.iteso.motor2d.model.collision.CollisionMath;
+
 /**
- * Representa un triángulo definido por 3 vértices.
+ * Representa un triángulo rectángulo definido por 3 vértices.
  */
 public class Triangle extends Shape2D 
 {
@@ -25,6 +27,14 @@ public class Triangle extends Shape2D
         super(px[0], py[0], color, id);
         this.px = px.clone();
         this.py = py.clone();
+    }
+
+    public Triangle(int x, int y, int base, int width, Color color, int id)
+    {
+        super(x, y, color, id);
+        this.px = new int[3];
+        this.py = new int[3];
+        setRightTriangle(base, width);
     }
 
     @Override
@@ -84,11 +94,44 @@ public class Triangle extends Shape2D
         return new Rectangle(minX, minY, maxX - minX, maxY - minY);
     }
 
+
+    public void setRightTriangle(int base, int height)
+    {
+        // el primer punto es el origen (x,y)
+        px[0] = x;
+        py[0] = y;
+
+        px[1] = x + base;
+        py[1] = y;
+
+        px[2] = x;
+        py[2] = y + height;
+    }
+
     @Override
     public boolean intersects(Shape2D other) 
     {
-        return false; // Colisiones se implementan después
+        return other.intersectsWithTriangle(this);
     }
+
+    @Override 
+    public boolean intersectsWithRectangle(Rectangle r)
+    {
+        return CollisionMath.intersects(r, this);
+    }
+
+    @Override
+    public boolean intersectsWithCircle(Circle c)
+    {
+        return CollisionMath.intersects(c, this);
+    }
+
+    @Override
+    public boolean intersectsWithTriangle(Triangle t)
+    {
+        return CollisionMath.intersects(this, t);
+    }
+
 
     @Override
     public Triangle clone() 

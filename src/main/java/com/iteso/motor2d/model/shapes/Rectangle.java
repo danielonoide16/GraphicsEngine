@@ -2,6 +2,8 @@ package com.iteso.motor2d.model.shapes;
 
 import java.awt.*;
 
+import com.iteso.motor2d.model.collision.CollisionMath;
+
 /**
  * Representa un rectángulo
  */
@@ -40,39 +42,28 @@ public class Rectangle extends Shape2D
         g.drawRect(x, y, width, height);
     }
 
-    // Placeholder: la lógica real va en CollisionDetector
     @Override
     public boolean intersects(Shape2D other) 
     {
-        if(other instanceof Rectangle)
-        {
-            Rectangle otherR = (Rectangle)other;
-            return this.x < otherR.x + otherR.width &&
-                this.x + this.width > otherR.x &&
-                this.y < otherR.y + otherR.height &&
-                this.y + this.height > otherR.y;
-        }
+        return other.intersectsWithRectangle(this);
+    }
 
+    @Override 
+    public boolean intersectsWithRectangle(Rectangle r)
+    {
+        return CollisionMath.intersects(r, this);
+    }
 
-        if(other instanceof Circle)
-        {
-            Circle circle = (Circle)other;
-            double closestX = Math.clamp(circle.x, this.x, this.x + this.width);
-            double closestY = Math.clamp(circle.y, this.y, this.y + this.height);
+    @Override
+    public boolean intersectsWithCircle(Circle c)
+    {
+        return CollisionMath.intersects(this, c);
+    }
 
-            double dx = circle.x - closestX;
-            double dy = circle.y - closestY;
-
-            return dx*dx + dy*dy < circle.getRadius() * circle.getRadius();
-        }
-
-        return false;
-
-        // if(other instanceof Triangle)
-        // {
-            
-        // }
-        
+    @Override
+    public boolean intersectsWithTriangle(Triangle t)
+    {
+        return CollisionMath.intersects(this, t);
     }
 
     @Override

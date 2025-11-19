@@ -61,9 +61,10 @@ public class Scene
     public void addTriangle() 
     {
         int id = IdGenerator.getInstance().generateId();
-        int[] px = {300, 340, 260};
-        int[] py = {300, 360, 360};
-        Triangle t = new Triangle(px, py, Color.GREEN, id);
+        // int[] px = {300, 340, 260};
+        // int[] py = {300, 360, 360};
+        
+        Triangle t = new Triangle(300, 300, 100, 50, Color.GREEN, id);
         shapes.add(t);
         selectedShape = t;
     }

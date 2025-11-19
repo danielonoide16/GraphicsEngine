@@ -34,6 +34,12 @@ public abstract class Shape2D implements Cloneable
     /** devuelve true si colisiona con otra figura */
     public abstract boolean intersects(Shape2D other);
 
+
+    // second dispatch
+    protected abstract boolean intersectsWithCircle(Circle c);
+    protected abstract boolean intersectsWithRectangle(Rectangle r);
+    protected abstract boolean intersectsWithTriangle(Triangle t);
+
     // --------- Getters y Setters ---------
 
     public int getX()

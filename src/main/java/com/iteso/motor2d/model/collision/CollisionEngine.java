@@ -53,19 +53,52 @@ public final class CollisionEngine
 
         List<CollisionPair> collisions = new ArrayList<>();
 
+        //usando awt shapes y areas
         // Comparación de todos contra todos (i < j)
+        // for (int i = 0; i < shapes.size(); i++) 
+        // {
+        //     Shape2D a = shapes.get(i);
+        //     if (a == null) 
+        //     {
+        //         throw new IllegalArgumentException("Shape element cannot be null.");
+        //     }
+
+        //     Shape awtShape = toAwtShape(a);
+        //     if(awtShape == null) 
+        //     {
+        //         continue; 
+        //     }
+
+        //     for(int j = i + 1; j < shapes.size(); j++) 
+        //     {
+        //         Shape2D b = shapes.get(j);
+        //         if(b == null) 
+        //         {
+        //             throw new IllegalArgumentException("Shape element cannot be null.");
+        //         }
+
+        //         Shape bwtShape = toAwtShape(b);
+
+        //         if(bwtShape == null) 
+        //         {
+        //             continue;
+        //         }
+
+        //         if(checkIntersection(awtShape, bwtShape)) 
+        //         {
+        //             collisions.add(new CollisionPair(a, b));
+        //         }
+        //     }
+        // }
+
+        //usando CollisionMath
+
         for (int i = 0; i < shapes.size(); i++) 
         {
             Shape2D a = shapes.get(i);
             if (a == null) 
             {
                 throw new IllegalArgumentException("Shape element cannot be null.");
-            }
-
-            Shape awtShape = toAwtShape(a);
-            if(awtShape == null) 
-            {
-                continue; 
             }
 
             for(int j = i + 1; j < shapes.size(); j++) 
@@ -76,14 +109,7 @@ public final class CollisionEngine
                     throw new IllegalArgumentException("Shape element cannot be null.");
                 }
 
-                Shape bwtShape = toAwtShape(b);
-
-                if(bwtShape == null) 
-                {
-                    continue;
-                }
-
-                if(checkIntersection(awtShape, bwtShape)) 
+                if(a.intersects(b)) 
                 {
                     collisions.add(new CollisionPair(a, b));
                 }
