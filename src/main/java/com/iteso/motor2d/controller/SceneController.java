@@ -35,16 +35,25 @@ public class SceneController
         tb.getBtnAddRectangle().addActionListener(e -> {
             if(createShapeWithDialog("rectangle"))
                 updateUI();
+            else
+                JOptionPane.showMessageDialog(window, "No se pudo crear el rectángulo", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
         });
 
         tb.getBtnAddCircle().addActionListener(e -> {
             if(createShapeWithDialog("circle"))
                 updateUI();
+            else
+                JOptionPane.showMessageDialog(window, "No se pudo crear el círculo", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
         });
 
         tb.getBtnAddTriangle().addActionListener(e -> {
             if(createShapeWithDialog("triangle"))
                 updateUI();
+            else
+                JOptionPane.showMessageDialog(window, "No se pudo crear el triángulo", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
         });
 
 
@@ -82,6 +91,13 @@ public class SceneController
         tb.getBtnApplySize().addActionListener(e -> {
             try {
                 int w = Integer.parseInt(tb.getTxtWidth().getText());
+
+                String heightText = tb.getTxtHeight().getText();
+                
+                if(heightText.isEmpty()) {
+                    tb.getTxtHeight().setText("" + w);
+                }
+
                 int h = Integer.parseInt(tb.getTxtHeight().getText());
                 resizeSelected(w, h);
             } catch (Exception ex) {
@@ -135,16 +151,20 @@ public class SceneController
 
     private void updateUI() 
     {
-        // 1) Actualiza lista de nombres de figuras
+        //actualizar el field que muestra la posicion
+        window.setPosField(scene.getPosString());
+        
+
+        //actualiza lista de nombres de figuras
        window.getToolbarPanel().updateShapeList(
             scene.getShapeNames(),
             scene.getSelectedIndex()
         );
 
-        // 2) Redibuja el canvas
+        // redibuja el canvas
         window.getCanvasPanel().setShapes(scene.getShapes());
 
-        // 3) Muestra colisiones
+        // mostrar colisiones
         window.displayCollisions(scene.getCollisionReport());
     }
 

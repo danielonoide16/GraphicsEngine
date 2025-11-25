@@ -271,6 +271,16 @@ public class Scene
         return null;
     }
 
+    public String getPosString()
+    {
+        if(selectedShape == null)
+        {
+            return "";
+        }
+
+        return "x: " + selectedShape.getX() + " y: " + selectedShape.getY();
+    }
+
     public void removeShape(Shape2D shape) 
     {
         if(shape == null) 

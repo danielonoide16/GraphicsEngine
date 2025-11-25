@@ -9,6 +9,7 @@ public class MainWindow extends JFrame
     private ToolbarPanel toolbarPanel;
     private CanvasPanel canvasPanel;
     private JTextArea collisionArea;
+    private JTextField posField;
 
     public MainWindow() 
     {
@@ -17,18 +18,43 @@ public class MainWindow extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        posField = new JTextField("");
+        posField.setEditable(false);
+        posField.setBorder(null);
+        posField.setBackground(new Color(240,240,240));
+        posField.setVisible(false); // oculto al inicio
+
         toolbarPanel = new ToolbarPanel();
+
+        // contenedor con toolbar y label de posición
+        JPanel topContainer = new JPanel(new BorderLayout());
+        topContainer.add(toolbarPanel, BorderLayout.NORTH);
+        topContainer.add(posField, BorderLayout.SOUTH);
+
         canvasPanel = new CanvasPanel();
 
         collisionArea = new JTextArea(5, 30);
         collisionArea.setEditable(false);
         JScrollPane scroll = new JScrollPane(collisionArea);
 
-        add(toolbarPanel, BorderLayout.NORTH);
+        add(topContainer, BorderLayout.NORTH);
         add(canvasPanel, BorderLayout.CENTER);
         add(scroll, BorderLayout.SOUTH);
 
         setVisible(true);
+    }
+
+    public void setPosField(String text)
+    {
+        if (text == null || text.isEmpty()) 
+        {
+            posField.setVisible(false);
+        } 
+        else
+        {
+            posField.setText(text);
+            posField.setVisible(true);
+        }
     }
 
     public CanvasPanel getCanvasPanel() 
