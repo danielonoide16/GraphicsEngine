@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.iteso.motor2d.io.SceneWriter;
 import com.iteso.motor2d.model.scene.Scene;
 import com.iteso.motor2d.view.MainWindow;
 import com.iteso.motor2d.view.ToolbarPanel;
@@ -27,11 +28,6 @@ public class SceneController
 
     public void connectToolbar(ToolbarPanel tb) 
     {
-        // Agregar figuras
-        // tb.getBtnAddRectangle().addActionListener(e -> addRectangle());
-        // tb.getBtnAddCircle().addActionListener(e -> addCircle());
-        // tb.getBtnAddTriangle().addActionListener(e -> addTriangle());
-
         tb.getBtnAddRectangle().addActionListener(e -> {
             if(createShapeWithDialog("rectangle"))
                 updateUI();
@@ -54,6 +50,11 @@ public class SceneController
             else
                 JOptionPane.showMessageDialog(window, "No se pudo crear el triángulo", 
                     "Error", JOptionPane.ERROR_MESSAGE);
+        });
+
+        tb.getBtnGenerateArchive().addActionListener(e->{
+            SceneWriter escritor = new SceneWriter(scene.getShapes());
+            escritor.generateJSON();
         });
 
 
@@ -105,7 +106,7 @@ public class SceneController
             }
         });
     }
-
+/*
     // Metodos de control
 
     // public void addRectangle() 
@@ -128,7 +129,7 @@ public class SceneController
     //     scene.addTriangle();
     //     updateUI();
     // }
-
+*/
     public void selectShape(int index) 
     {
         System.out.println("Shape selected, index: " + index);

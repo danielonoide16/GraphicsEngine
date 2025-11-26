@@ -73,14 +73,17 @@ public class SceneWriter {
             }
             else if(figura instanceof Circle){ // Circulo
                 Circle circulo = (Circle)figura;
-                gnrlFeatures.add("Radio", circulo.getRadius());
+                uniqueFeatures.add("Radio", circulo.getRadius());
 
             }
             else if(figura instanceof Rectangle){ // Rectangulo
                 Rectangle rectangulo = (Rectangle)figura;
-                gnrlFeatures.add("Ancho", rectangulo.getWidth());
-                gnrlFeatures.add("Altura", rectangulo.getHeight());
+                uniqueFeatures.add("Ancho", rectangulo.getWidth());
+                uniqueFeatures.add("Altura", rectangulo.getHeight());
 
+            }
+            else{
+                System.out.println("Error agregando unique features");
             }
 
             // * Agregar caracteristicas unicas en generales, y agregar las generales en el root
@@ -98,7 +101,8 @@ public class SceneWriter {
             
         }
         catch(Exception e){ // Error
-            e.printStackTrace();
+            System.out.println("Error al generar el json");
+            root = Json.createObjectBuilder();
         }
     }
 }

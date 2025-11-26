@@ -12,5 +12,6 @@ public class Main {
         SceneController controller = new SceneController(scene, window);
 
         window.setController(controller);
+
     }
 }

@@ -22,6 +22,8 @@ public class ToolbarPanel extends JPanel
     private JTextField txtHeight;
 
     private JButton btnApplySize;
+    private JButton btnGenerateArch;
+    private JButton btnReadArchive;
 
     public ToolbarPanel() 
     {
@@ -45,6 +47,8 @@ public class ToolbarPanel extends JPanel
         txtWidth = new JTextField(5);
         txtHeight = new JTextField(5);
         btnApplySize = new JButton("Apply Size");
+        btnGenerateArch = new JButton("Generate Archive");
+        btnReadArchive = new JButton("Read Archive");
 
         add(new JLabel("Add:"));
         add(btnAddRectangle);
@@ -66,6 +70,10 @@ public class ToolbarPanel extends JPanel
         add(txtWidth);
         add(txtHeight);
         add(btnApplySize);
+
+        add(new JLabel("Manipulate Archives"));
+        add(btnGenerateArch);
+        add(btnReadArchive);
     }
 
     // ---------- Getters ----------
@@ -84,6 +92,8 @@ public class ToolbarPanel extends JPanel
     public JTextField getTxtWidth() { return txtWidth; }
     public JTextField getTxtHeight() { return txtHeight; }
     public JButton getBtnApplySize() { return btnApplySize; }
+    public JButton getBtnGenerateArchive(){return btnGenerateArch;}
+    public JButton getBtnReadArchive(){return btnReadArchive;}
 
 
     // ---------- ACTUALIZACIÓN SILENCIOSA DEL DROPDOWN ----------
