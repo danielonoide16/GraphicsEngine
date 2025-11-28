@@ -1,15 +1,10 @@
 package com.iteso.motor2d.io;
 
 // Dependencias para manipular jsons
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonString;
 import javax.json.JsonValue;
-
-// Dependencias para manipular archivos
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.FileNotFoundException;
 
 // Dependencias extra
 import java.util.List;
@@ -35,7 +30,7 @@ public class SceneReader{
         for(String key: jsonShape.keySet()){
             JsonValue metadata = jsonShape.get(key);
             JsonObject objetos = (JsonObject)metadata;  
-            JsonValue clase = objetos.get("Clase");
+            String clase = objetos.getString("Clase");
             int posX = objetos.getInt("PosicionX");
             int posY = objetos.getInt("PosicionY");
 
@@ -48,7 +43,7 @@ public class SceneReader{
             JsonObject features = objetos.getJsonObject("UniqueFeatures");
             
             // * Dibujar las figuras
-            switch (clase.toString()) {
+            switch (clase) {
                 case "Circle":
                     int radius = features.getInt("Radio");
                     figuras.add(createCircle(posX, posY, radius, Integer.parseInt(key), color));
