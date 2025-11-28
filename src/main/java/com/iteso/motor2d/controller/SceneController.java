@@ -2,6 +2,7 @@ package com.iteso.motor2d.controller;
 
 import java.awt.Color;
 
+import javax.crypto.SealedObject;
 import javax.swing.BoxLayout;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
@@ -9,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.iteso.motor2d.io.SceneReader;
 import com.iteso.motor2d.io.SceneWriter;
 import com.iteso.motor2d.model.scene.Scene;
 import com.iteso.motor2d.view.MainWindow;
@@ -52,9 +54,17 @@ public class SceneController
                     "Error", JOptionPane.ERROR_MESSAGE);
         });
 
+        // Generador del json
         tb.getBtnGenerateArchive().addActionListener(e->{
             SceneWriter escritor = new SceneWriter(scene.getShapes());
             escritor.generateJSON();
+        });
+
+        // Lector de jsons
+        tb.getBtnReadArchive().addActionListener(e->{
+            FileController lector = new FileController("figuras.json", window);
+            lector.createFigures();
+            updateUI();
         });
 
 
@@ -106,30 +116,7 @@ public class SceneController
             }
         });
     }
-/*
-    // Metodos de control
 
-    // public void addRectangle() 
-    // {
-    //     System.out.println("Adding Rectangle");
-    //     scene.addRectangle();
-    //     updateUI();
-    // }
-
-    // public void addCircle() 
-    // {
-    //     System.out.println("Adding Circle");
-    //     scene.addCircle();
-    //     updateUI();
-    // }
-
-    // public void addTriangle() 
-    // {
-    //     System.out.println("Adding Triangle");
-    //     scene.addTriangle();
-    //     updateUI();
-    // }
-*/
     public void selectShape(int index) 
     {
         System.out.println("Shape selected, index: " + index);

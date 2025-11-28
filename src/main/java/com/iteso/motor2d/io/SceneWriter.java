@@ -32,7 +32,7 @@ public class SceneWriter {
         Llenar el JSonObjectBuilder para generar el archivo JSON
         a partir de una lista de figuras
         Si la lista esta vacía no se ejecuta el codigo
-        Sino, entonces agregaran todas las figuras como:
+        Sino, entonces se agregaran todas las figuras como:
 
             "idFigura" : {
                         "Clase": clase,
