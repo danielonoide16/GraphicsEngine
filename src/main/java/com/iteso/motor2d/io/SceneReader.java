@@ -6,6 +6,7 @@ import javax.json.JsonObject;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
+import java.util.ArrayList;
 // Dependencias extra
 import java.util.List;
 import java.awt.Color;
@@ -23,6 +24,7 @@ public class SceneReader{
     public SceneReader(MainWindow window, JsonObject json){
         this.window = window;
         this.jsonShape = json;
+        this.figuras = new ArrayList<>();
     }
 
     // Dibujar las figuras

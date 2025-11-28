@@ -1,1 +1,1 @@
-{"1":{"Clase":"Rectangle","PosicionX":3,"PosicionY":4,"Colores":[0,0,255],"UniqueFeatures":{"Ancho":2,"Altura":3}}}
+{"1":{"Clase":"Rectangle","PosicionX":80,"PosicionY":80,"Colores":[204,0,0],"UniqueFeatures":{"Ancho":80,"Altura":80}},"2":{"Clase":"Circle","PosicionX":80,"PosicionY":80,"Colores":[0,0,255],"UniqueFeatures":{"Radio":80}}}
