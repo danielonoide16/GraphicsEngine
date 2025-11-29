@@ -3,7 +3,6 @@ package com.iteso.motor2d.io;
 // Dependencias para manipular jsons
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonString;
 import javax.json.JsonValue;
 
 import java.util.ArrayList;
@@ -13,23 +12,21 @@ import java.awt.Color;
 
 // Dependencias internas
 import com.iteso.motor2d.model.shapes.*;
-import com.iteso.motor2d.view.MainWindow;
 
 public class SceneReader{
     private JsonObject jsonShape;
     private List<Shape2D> figuras;
-    private MainWindow window;
 
     // Constructor
-    public SceneReader(MainWindow window, JsonObject json){
-        this.window = window;
+    public SceneReader(JsonObject json){
         this.jsonShape = json;
         this.figuras = new ArrayList<>();
     }
 
     // Dibujar las figuras
-    public void createFigures(){
+    public List<Shape2D> createFigures(){
         for(String key: jsonShape.keySet()){
+            // Extrayendo los datos y casteandolos a valores primitivos
             JsonValue metadata = jsonShape.get(key);
             JsonObject objetos = (JsonObject)metadata;  
             String clase = objetos.getString("Clase");
@@ -66,7 +63,7 @@ public class SceneReader{
                     break;
             }
         }
-        window.getCanvasPanel().setShapes(figuras);
+        return figuras;
     }
     
     private Circle createCircle(int posX, int posY, int radius, int id, Color color){

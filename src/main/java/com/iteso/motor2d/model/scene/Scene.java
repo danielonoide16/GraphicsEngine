@@ -83,7 +83,7 @@ public class Scene
         } 
         else 
         {
-            System.out.println("Shape selected: " + shapes.get(index));
+            //System.out.println("Shape selected: " + shapes.get(index));
             selectedShape = shapes.get(index);
         }
     }
@@ -189,6 +189,17 @@ public class Scene
         }
         return names;
     }
+    /**
+     * Crea una  lista nueva con nuevas figuras a partir de otra ya creada
+     * @param arreglo
+     */
+    public void setShape2ds(List<Shape2D> arreglo){
+        shapes.clear();
+        for(Shape2D figura: arreglo){
+            this.shapes.add(figura);
+        }
+    }
+
 
     /**
      * Construye un reporte de colisiones usando CollisionEngine.

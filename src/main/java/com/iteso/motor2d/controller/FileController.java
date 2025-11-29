@@ -5,21 +5,21 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 
 import com.iteso.motor2d.io.SceneReader;
+import com.iteso.motor2d.model.shapes.Shape2D;
 import com.iteso.motor2d.view.MainWindow;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.List;
 import java.io.FileNotFoundException;
 
 public class FileController{
     private String path;
     private JsonObject jsonShape;
-    private MainWindow window;
 
-    public FileController(String path, MainWindow window){
+    public FileController(String path){
         this.path = path;
-        this.window = window;
-        createFigures();
+        generateFigures();
     }
 
     private void readJson(){
@@ -33,10 +33,10 @@ public class FileController{
             System.out.println("No se encuentra el error");
         };
     }
-    public void createFigures(){
+    public List<Shape2D> generateFigures(){
         readJson();
-        SceneReader lector = new SceneReader(window, jsonShape);
-        lector.createFigures();
+        SceneReader lector = new SceneReader(jsonShape);
+        return lector.createFigures();
     }
 
 }

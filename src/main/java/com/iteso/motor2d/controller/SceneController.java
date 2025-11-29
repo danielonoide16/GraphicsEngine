@@ -2,7 +2,6 @@ package com.iteso.motor2d.controller;
 
 import java.awt.Color;
 
-import javax.crypto.SealedObject;
 import javax.swing.BoxLayout;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
@@ -10,7 +9,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.iteso.motor2d.io.SceneReader;
 import com.iteso.motor2d.io.SceneWriter;
 import com.iteso.motor2d.model.scene.Scene;
 import com.iteso.motor2d.view.MainWindow;
@@ -62,8 +60,8 @@ public class SceneController
 
         // Lector de jsons
         tb.getBtnReadArchive().addActionListener(e->{
-            FileController lector = new FileController("figuras.json", window);
-            lector.createFigures();
+            FileController lector = new FileController("figuras.json");
+            scene.setShape2ds(lector.generateFigures());
             updateUI();
         });
 
