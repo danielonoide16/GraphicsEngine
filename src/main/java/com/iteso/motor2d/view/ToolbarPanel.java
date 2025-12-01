@@ -1,7 +1,6 @@
 package com.iteso.motor2d.view;
 
 import javax.swing.*;
-import javax.tools.Tool;
 
 import java.awt.*;
 
@@ -14,6 +13,7 @@ public class ToolbarPanel extends JPanel
 
     private JComboBox<String> shapeSelector;
     private JButton btnRemove;
+    private JFileChooser fileChooser;
 
     private JButton btnMoveUp;
     private JButton btnMoveDown;
@@ -52,6 +52,8 @@ public class ToolbarPanel extends JPanel
         btnGenerateArch = new JButton("Generate Archive");
         btnReadArchive = new JButton("Read Archive");
 
+        fileChooser = new JFileChooser();
+
         add(new JLabel("Add:"));
         add(btnAddRectangle);
         add(btnAddCircle);
@@ -76,8 +78,9 @@ public class ToolbarPanel extends JPanel
         add(new JLabel("Manipulate Archives"));
         add(btnGenerateArch);
         add(btnReadArchive);
+
         //resize the panel to fit the window of the computer
-        this.setPreferredSize(new Dimension(800, 60));
+        this.setPreferredSize(new Dimension(800, 30));
 
 
         
@@ -89,6 +92,7 @@ public class ToolbarPanel extends JPanel
     public JButton getBtnAddTriangle() { return btnAddTriangle; }
 
     public JComboBox<String> getShapeSelector() { return shapeSelector; }
+    public JFileChooser getFileChooser(){ return fileChooser;}
 
     public JButton getBtnRemove() { return btnRemove; }
     public JButton getBtnMoveUp() { return btnMoveUp; }

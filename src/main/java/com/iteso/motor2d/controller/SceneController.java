@@ -1,9 +1,11 @@
 package com.iteso.motor2d.controller;
 
 import java.awt.Color;
+import java.io.File;
 
 import javax.swing.BoxLayout;
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -60,9 +62,15 @@ public class SceneController
 
         // Lector de jsons
         tb.getBtnReadArchive().addActionListener(e->{
-            FileController lector = new FileController("figuras.json");
-            scene.setShape2ds(lector.generateFigures());
-            updateUI();
+            JFileChooser menu = window.getToolbarPanel().getFileChooser();
+            int estado = menu.showOpenDialog(window);
+            if (estado == JFileChooser.APPROVE_OPTION){
+                File archivo = menu.getSelectedFile();
+                FileController lector = new FileController(archivo.getAbsolutePath());
+                scene.setShape2ds(lector.generateFigures());
+                updateUI();
+            }
+            
         });
 
 
