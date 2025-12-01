@@ -1,6 +1,8 @@
 package com.iteso.motor2d.view;
 
 import javax.swing.*;
+import javax.tools.Tool;
+
 import java.awt.*;
 
 public class ToolbarPanel extends JPanel 
@@ -74,8 +76,9 @@ public class ToolbarPanel extends JPanel
         add(new JLabel("Manipulate Archives"));
         add(btnGenerateArch);
         add(btnReadArchive);
-        //resize the panel to fit components
-        this.setPreferredSize(new Dimension(800, 60)); //this forces the panel to be 800px wide and 60px tall
+        //resize the panel to fit the window of the computer
+        this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height / 15));
+
 
         
     }
