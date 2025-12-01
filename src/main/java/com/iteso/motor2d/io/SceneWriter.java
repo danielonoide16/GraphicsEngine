@@ -18,9 +18,11 @@ import javax.json.JsonWriter;
 
 public class SceneWriter {
     private JsonObjectBuilder root;
+    private String absPath;
     
-    public SceneWriter(List<Shape2D> figuras_lista){
+    public SceneWriter(List<Shape2D> figuras_lista, String path){
         root = Json.createObjectBuilder();
+        this.absPath = path;
         writeJSON(figuras_lista);
     }
 
@@ -95,7 +97,7 @@ public class SceneWriter {
 
     public void generateJSON(){
         try{ // Escribir el archivo
-            JsonWriter archivo = Json.createWriter(new FileOutputStream("figuras.json"));
+            JsonWriter archivo = Json.createWriter(new FileOutputStream(this.absPath));
             archivo.writeObject(root.build());
             archivo.close();
             
