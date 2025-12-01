@@ -1,1 +1,29 @@
-{"1":{"Clase":"Circle","PosicionX":220,"PosicionY":180,"Colores":[51,51,0],"UniqueFeatures":{"Radio":150}},"2":{"Clase":"Rectangle","PosicionX":350,"PosicionY":250,"Colores":[0,0,153],"UniqueFeatures":{"Ancho":80,"Altura":99}}}
+{
+    "1": {
+        "Clase": "Circle",
+        "PosicionX": 220,
+        "PosicionY": 180,
+        "Colores": [
+            51,
+            0,
+            51
+        ],
+        "UniqueFeatures": {
+            "Radio": 150
+        }
+    },
+    "2": {
+        "Clase": "Rectangle",
+        "PosicionX": 350,
+        "PosicionY": 250,
+        "Colores": [
+            0,
+            153,
+            0
+        ],
+        "UniqueFeatures": {
+            "Ancho": 80,
+            "Altura": 99
+        }
+    }
+}
