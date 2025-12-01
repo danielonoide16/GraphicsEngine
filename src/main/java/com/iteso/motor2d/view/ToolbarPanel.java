@@ -77,7 +77,7 @@ public class ToolbarPanel extends JPanel
         add(btnGenerateArch);
         add(btnReadArchive);
         //resize the panel to fit the window of the computer
-        this.setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height / 15));
+        this.setPreferredSize(new Dimension(800, 60));
 
 
         
