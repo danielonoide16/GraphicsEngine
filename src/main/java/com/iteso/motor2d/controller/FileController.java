@@ -1,5 +1,11 @@
 package com.iteso.motor2d.controller;
 
+/*
+ * Función del FileController
+ * El file controller se encarga de crear una lista de figuras
+ * a partir de la lectura de un json
+ */
+
 // Dependencias para mainpular JSON
 import javax.json.Json;
 import javax.json.JsonObject;
