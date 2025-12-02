@@ -1,5 +1,6 @@
 package com.iteso.motor2d.io;
 
+import com.iteso.motor2d.model.exceptions.InvalidFileException;
 // Importar la clase SHAPE2D
 import com.iteso.motor2d.model.shapes.*;
 
@@ -24,6 +25,7 @@ public class SceneWriter {
         root = Json.createObjectBuilder();
         this.absPath = path;
         writeJSON(figuras_lista);
+        
     }
 
     // Iterar y crear el json

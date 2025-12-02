@@ -13,9 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.iteso.motor2d.io.SceneWriter;
+import com.iteso.motor2d.model.exceptions.InvalidFileException;
 import com.iteso.motor2d.model.scene.Scene;
 import com.iteso.motor2d.view.MainWindow;
 import com.iteso.motor2d.view.ToolbarPanel;
+import com.iteso.motor2d.model.exceptions.InvalidFileException;
 
 public class SceneController 
 {
@@ -62,7 +64,7 @@ public class SceneController
             if (estado == JFileChooser.APPROVE_OPTION){
                 File ruta = menu.getSelectedFile();
                 SceneWriter escritor = new SceneWriter(scene.getShapes(), ruta.getAbsolutePath()+".json");
-                escritor.generateJSON();
+                escritor.generateJSON();    
             }
             
         });
@@ -73,9 +75,16 @@ public class SceneController
             int estado = menu.showOpenDialog(window);
             if (estado == JFileChooser.APPROVE_OPTION){
                 File archivo = menu.getSelectedFile();
-                FileController lector = new FileController(archivo.getAbsolutePath());
-                scene.setShape2ds(lector.generateFigures());
-                updateUI();
+                if(!archivo.getName().toLowerCase().endsWith(".json")){
+                    throw new InvalidFileException(window, "Selecciona un arhivo .json");
+
+                }
+                else{
+                    FileController lector = new FileController(archivo.getAbsolutePath());
+                    scene.setShape2ds(lector.generateFigures());
+                    updateUI();
+                }
+                
             }
             
         });
