@@ -42,7 +42,7 @@ public class SceneWriter {
                         "Clase": clase,
                         "PosicionX": x,
                         "PosicionY": y,
-                        "Colores": [RED, BLUE, GREEN],
+                        "Colores": [RED, BLUE, GREEN, ALPHA],
                         "UniqueFeatures": {Caracteristicas especificas de cada figura}
             }
         */
@@ -61,13 +61,9 @@ public class SceneWriter {
             gnrlFeatures.add("PosicionX", figura.getX());
             gnrlFeatures.add("PosicionY", figura.getY());
 
-            JsonArrayBuilder colores = Json.createArrayBuilder(); // "Color": [RED, BLUE, GREEN]
             Color color = figura.getColor();
-            colores.add(color.getRed());
-            colores.add(color.getGreen());
-            colores.add(color.getBlue());
-            JsonArray arreglo_colores = colores.build();
-            gnrlFeatures.add("Colores", arreglo_colores);
+            int rgb = color.getRGB();
+            gnrlFeatures.add("Colores", rgb);
 
             // * Caracteristicas especificas de cada figura
             if(figura instanceof Triangle){ // Triangulo

@@ -17,7 +17,6 @@ import com.iteso.motor2d.model.exceptions.InvalidFileException;
 import com.iteso.motor2d.model.scene.Scene;
 import com.iteso.motor2d.view.MainWindow;
 import com.iteso.motor2d.view.ToolbarPanel;
-import com.iteso.motor2d.model.exceptions.InvalidFileException;
 
 public class SceneController 
 {
@@ -234,7 +233,6 @@ public class SceneController
             // Color
             Color color = JColorChooser.showDialog(window, "Elige color", Color.BLUE);
             if (color == null) return false;
-
             switch(type.toLowerCase()) {
 
                 case "rectangle": {

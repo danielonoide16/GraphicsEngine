@@ -33,11 +33,8 @@ public class SceneReader{
             int posX = objetos.getInt("PosicionX");
             int posY = objetos.getInt("PosicionY");
 
-            JsonArray colores = objetos.getJsonArray("Colores");
-            int red = colores.getInt(0);
-            int blue = colores.getInt(1);
-            int green = colores.getInt(2);
-            Color color = new Color(red, green, blue);
+            int rgb = objetos.getInt("Colores");
+            Color color = new Color(rgb);
 
             JsonObject features = objetos.getJsonObject("UniqueFeatures");
             
