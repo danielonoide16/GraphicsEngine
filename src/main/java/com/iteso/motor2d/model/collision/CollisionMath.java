@@ -32,6 +32,7 @@ public class CollisionMath
      */
     public static boolean intersects(Circle a, Circle b) 
     {
+        if(a.equals(b)) return true; // mismo objeto, colisionan
         //this works by comparing the squared distance between centers to the squared sum of radii
         double dx = a.getX() - b.getX();
         double dy = a.getY() - b.getY();
@@ -57,7 +58,6 @@ public class CollisionMath
     //Estos metodos funcionan solo para triangulos rectos definidos con setRightTriangle
     public static boolean intersects(Rectangle rect, Triangle tri)  
     {
-
         // 1. Si el rectángulo intersecta el bounding-box del triangulo
         //if (!intersectsBoundingBox(rect, tri)) return false;
         if(!intersects(rect, tri.getBoundingBox())) return false;
@@ -109,6 +109,7 @@ public class CollisionMath
 
     public static boolean intersects(Triangle a, Triangle b) 
     {
+        if(a.equals(b)) return true; // mismo objeto, colisionan
 
         // 1. Checar bounding boxes
         if(!intersects(a.getBoundingBox(), b.getBoundingBox())) return false;
