@@ -1,115 +1,85 @@
 package com.iteso.motor2d.view;
 
 import java.awt.*;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 
-
-/**
- * Clase para un layout que envuelve los componentes a la siguiente línea
- * 
- */
-public class WrapLayout extends FlowLayout
+public class WrapLayout extends FlowLayout 
 {
-	public WrapLayout()
+
+    public WrapLayout() 
 	{
-		super();
-	}
+        super();
+    }
 
-	public WrapLayout(int align)
+    public WrapLayout(int align, int hgap, int vgap) 
 	{
-		super(align);
-	}
+        super(align, hgap, vgap);
+    }
 
-	public WrapLayout(int align, int hgap, int vgap)
+    @Override
+    public Dimension preferredLayoutSize(Container parent) 
 	{
-		super(align, hgap, vgap);
-	}
+        return computeLayoutSize(parent);
+    }
 
-	@Override
-	public Dimension preferredLayoutSize(Container target)
+    @Override
+    public Dimension minimumLayoutSize(Container parent) 
 	{
-		return layoutSize(target, true);
-	}
+        return computeLayoutSize(parent);
+    }
 
-	@Override
-	public Dimension minimumLayoutSize(Container target)
+    /**
+     * Calcula el tamaño total necesario para acomodar los componentes
+     * haciendo wrap cuando el ancho disponible se llena
+	 * 
+     */
+    private Dimension computeLayoutSize(Container parent) 
 	{
-		Dimension minimum = layoutSize(target, false);
-		minimum.width -= (getHgap() + 1);
-		return minimum;
-	}
-
-	private Dimension layoutSize(Container target, boolean preferred)
-	{
-	synchronized (target.getTreeLock())
-	{
-		int targetWidth = target.getSize().width;
-
-		if (targetWidth == 0)
-			targetWidth = Integer.MAX_VALUE;
-
-		int hgap = getHgap();
-		int vgap = getVgap();
-		Insets insets = target.getInsets();
-		int horizontalInsetsAndGap = insets.left + insets.right + (hgap * 2);
-		int maxWidth = targetWidth - horizontalInsetsAndGap;
-
-		Dimension dim = new Dimension(0, 0);
-		int rowWidth = 0;
-		int rowHeight = 0;
-
-		int nmembers = target.getComponentCount();
-
-		for (int i = 0; i < nmembers; i++)
+        synchronized (parent.getTreeLock()) 
 		{
-			Component m = target.getComponent(i);
 
-			if (m.isVisible())
+            int hgap = getHgap(); // espacio horizontal entre componentes
+            int vgap = getVgap();
+            Insets insets = parent.getInsets(); // los insets son los bordes internos del contenedor
+
+            // ancho disponible dentro del panel
+            int availableWidth = parent.getWidth();
+
+            // si aun no tiene tamaño real 
+            if (availableWidth <= 0) 
 			{
-				Dimension d = preferred ? m.getPreferredSize() : m.getMinimumSize();
+                availableWidth = Integer.MAX_VALUE; // para que no haga wrap, porque no hay tamaño definido
+            }
 
-				if (rowWidth + d.width > maxWidth)
+            availableWidth -= insets.left + insets.right;
+
+            int x = 0;     // ancho acumulado de la fila actual
+            int y = insets.top + vgap; // altura total del layout
+            int rowHeight = 0;
+
+            for (Component comp : parent.getComponents()) 
+			{
+                if (!comp.isVisible())
+                    continue;
+
+                Dimension d = comp.getPreferredSize();
+
+                // si no cabe en la fila actual, se pone en la siguiente linea
+                if (x + d.width > availableWidth) 
 				{
-					addRow(dim, rowWidth, rowHeight);
-					rowWidth = 0;
-					rowHeight = 0;
-				}
+                    y += rowHeight + vgap;  // pasamos a la siguiente línea
+                    x = 0;
+                    rowHeight = 0;
+                }
 
-				if (rowWidth != 0)
-				{
-					rowWidth += hgap;
-				}
+                // acomodar componente
+                x += d.width + hgap;
+                rowHeight = Math.max(rowHeight, d.height);
+            }
 
-				rowWidth += d.width;
-				rowHeight = Math.max(rowHeight, d.height);
-			}
-		}
+            // suma la última fila
+            y += rowHeight + insets.bottom;
 
-		addRow(dim, rowWidth, rowHeight);
-
-		dim.width += horizontalInsetsAndGap;
-		dim.height += insets.top + insets.bottom + vgap * 2;
-
-		Container scrollPane = SwingUtilities.getAncestorOfClass(JScrollPane.class, target);
-		if (scrollPane != null)
-		{
-			dim.width -= (hgap + 1);
-		}
-
-		return dim;
-	}
-	}
-
-	private void addRow(Dimension dim, int rowWidth, int rowHeight)
-	{
-		dim.width = Math.max(dim.width, rowWidth);
-
-		if (dim.height > 0)
-		{
-			dim.height += getVgap();
-		}
-
-		dim.height += rowHeight;
-	}
+            return new Dimension(availableWidth, y);
+        }
+    }
 }

@@ -78,12 +78,6 @@ public class ToolbarPanel extends JPanel
         add(new JLabel("Manipulate Archives"));
         add(btnGenerateArch);
         add(btnReadArchive);
-
-        //resize the panel to fit the window of the computer
-        this.setPreferredSize(new Dimension(800, 30));
-
-
-        
     }
 
     // ---------- Getters ----------

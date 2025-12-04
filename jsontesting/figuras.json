@@ -1,0 +1,29 @@
+{
+    "1": {
+        "Clase": "Circle",
+        "PosicionX": 800,
+        "PosicionY": 150,
+        "Colores": [
+            0,
+            51,
+            204
+        ],
+        "UniqueFeatures": {
+            "Radio": 90
+        }
+    },
+    "2": {
+        "Clase": "Triangle",
+        "PosicionX": 350,
+        "PosicionY": 570,
+        "Colores": [
+            153,
+            0,
+            153
+        ],
+        "UniqueFeatures": {
+            "Ancho": 100,
+            "Altura": 500
+        }
+    }
+}

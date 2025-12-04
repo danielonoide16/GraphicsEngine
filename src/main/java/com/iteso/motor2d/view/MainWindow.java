@@ -42,6 +42,12 @@ public class MainWindow extends JFrame
         add(scroll, BorderLayout.SOUTH);
 
         setVisible(true);
+
+        // actualizar el layout del toolbar al inicio para que acomode bien los botones
+        SwingUtilities.invokeLater(() -> {
+            toolbarPanel.revalidate(); // actualizar el layout 
+            toolbarPanel.repaint(); // repintar el panel
+        });
     }
 
     public void setPosField(String text)
