@@ -1,15 +1,6 @@
 package com.iteso.motor2d.model.collision;
 
 import com.iteso.motor2d.model.shapes.Shape2D;
-import com.iteso.motor2d.model.shapes.Rectangle;
-import com.iteso.motor2d.model.shapes.Circle;
-import com.iteso.motor2d.model.shapes.Triangle;
-
-import java.awt.Shape;
-import java.awt.Polygon;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,46 +44,6 @@ public final class CollisionEngine
 
         List<CollisionPair> collisions = new ArrayList<>();
 
-        //usando awt shapes y areas
-        // Comparación de todos contra todos (i < j)
-        // for (int i = 0; i < shapes.size(); i++) 
-        // {
-        //     Shape2D a = shapes.get(i);
-        //     if (a == null) 
-        //     {
-        //         throw new IllegalArgumentException("Shape element cannot be null.");
-        //     }
-
-        //     Shape awtShape = toAwtShape(a);
-        //     if(awtShape == null) 
-        //     {
-        //         continue; 
-        //     }
-
-        //     for(int j = i + 1; j < shapes.size(); j++) 
-        //     {
-        //         Shape2D b = shapes.get(j);
-        //         if(b == null) 
-        //         {
-        //             throw new IllegalArgumentException("Shape element cannot be null.");
-        //         }
-
-        //         Shape bwtShape = toAwtShape(b);
-
-        //         if(bwtShape == null) 
-        //         {
-        //             continue;
-        //         }
-
-        //         if(checkIntersection(awtShape, bwtShape)) 
-        //         {
-        //             collisions.add(new CollisionPair(a, b));
-        //         }
-        //     }
-        // }
-
-        //usando CollisionMath
-
         for (int i = 0; i < shapes.size(); i++) 
         {
             Shape2D a = shapes.get(i);
@@ -117,60 +68,6 @@ public final class CollisionEngine
         }
 
         return collisions;
-    }
-
-    /**
-     * Convierte una Shape2D del modelo a un java.awt.Shape adecuado.
-     *
-     * @param s figura del modelo
-     * @return java.awt.Shape o null si no es representable
-     */
-    private Shape toAwtShape(Shape2D s) 
-    {
-        if (s instanceof Rectangle rect) 
-        {
-            // En nuestro modelo Rectangle guarda x,y,width,height (x,y como esquina superior izquierda)
-            return new Rectangle2D.Double(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        } 
-        else if (s instanceof Circle circ) 
-        {
-            // Circle guarda x,y como centro (según definición previa), radius
-            double r = circ.getRadius();
-            return new Ellipse2D.Double(circ.getX() - r, circ.getY() - r, r * 2, r * 2);
-        } 
-        else if (s instanceof Triangle tri) 
-        {
-            int[] px = tri.getPx();
-            int[] py = tri.getPy();
-            if (px == null || py == null || px.length != 3 || py.length != 3) return null;
-            return new Polygon(px, py, 3);
-        } 
-        else 
-        {
-            // Si hay nuevas figuras no soportadas, retornar null
-            return null;
-        }
-    }
-
-    /**
-     * Comprueba si dos java.awt.Shape se intersectan usando Area.
-     *
-     * @param a primer shape
-     * @param b segundo shape
-     * @return true si intersectan
-     */
-    private boolean checkIntersection(Shape a, Shape b) 
-    {
-        try {
-            Area areaA = new Area(a);
-            Area areaB = new Area(b);
-            areaA.intersect(areaB);
-            return !areaA.isEmpty();
-        } catch (Exception ex) {
-            // En caso de error geométrico, lo registramos y devolvemos false
-            System.err.println("CollisionEngine.checkIntersection error: " + ex.getMessage());
-            return false;
-        }
     }
 
     /**
