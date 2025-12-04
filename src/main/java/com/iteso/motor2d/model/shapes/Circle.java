@@ -3,6 +3,7 @@ package com.iteso.motor2d.model.shapes;
 import java.awt.*;
 
 import com.iteso.motor2d.model.collision.CollisionMath;
+import com.iteso.motor2d.util.IdGenerator;
 
 /**
  * Representa un círculo.
@@ -76,7 +77,7 @@ public class Circle extends Shape2D
     @Override
     public Circle clone() 
     {
-        return new Circle(x, y, radius, color, id);
+        return new Circle(x, y, radius, color, IdGenerator.getInstance().generateId());
     }
 
 

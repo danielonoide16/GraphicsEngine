@@ -14,10 +14,15 @@ import javax.swing.JTextField;
 import com.iteso.motor2d.io.SceneWriter;
 import com.iteso.motor2d.model.exceptions.InvalidFileException;
 import com.iteso.motor2d.model.scene.Scene;
+import com.iteso.motor2d.model.shapes.Shape2D;
 import com.iteso.motor2d.model.shapes.Shape2D.ShapeType;
 import com.iteso.motor2d.view.MainWindow;
 import com.iteso.motor2d.view.ToolbarPanel;
 
+
+/*
+ * Controlador de la escena que maneja la interacción entre el modelo y la vista
+ */
 public class SceneController 
 {
 
@@ -30,17 +35,11 @@ public class SceneController
         this.window = window;
     }
 
-    public void connectToolbar(ToolbarPanel tb) 
+    public void connect() 
     {
-        tb.getBtnAddRectangle().addActionListener(e -> {
-            if(createShapeWithDialog(ShapeType.RECTANGLE))
-                updateUI();
-            else
-                JOptionPane.showMessageDialog(window, "No se pudo crear el rectángulo", 
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        });
+        ToolbarPanel tb = window.getToolbarPanel();
 
-        tb.getBtnAddCircle().addActionListener(e -> {
+        tb.onAddCircle(() -> {
             if(createShapeWithDialog(ShapeType.CIRCLE))
                 updateUI();
             else
@@ -48,7 +47,15 @@ public class SceneController
                     "Error", JOptionPane.ERROR_MESSAGE);
         });
 
-        tb.getBtnAddTriangle().addActionListener(e -> {
+        tb.onAddRectangle(() -> {
+            if(createShapeWithDialog(ShapeType.RECTANGLE))
+                updateUI();
+            else
+                JOptionPane.showMessageDialog(window, "No se pudo crear el rectángulo", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        });
+
+        tb.onAddTriangle(() -> {
             if(createShapeWithDialog(ShapeType.TRIANGLE))
                 updateUI();
             else
@@ -56,49 +63,19 @@ public class SceneController
                     "Error", JOptionPane.ERROR_MESSAGE);
         });
 
-        // Generador del json
-        tb.getBtnGenerateArchive().addActionListener(e->{
-            JFileChooser menu = window.getToolbarPanel().getFileChooser();
-            int estado = menu.showSaveDialog(window);
-            if (estado == JFileChooser.APPROVE_OPTION){
-                File ruta = menu.getSelectedFile();
-                SceneWriter escritor = new SceneWriter(scene.getShapes(), ruta.getAbsolutePath()+".json");
-                escritor.generateJSON();    
-            }
-            
-        });
-
-        // Lector de jsons
-        tb.getBtnReadArchive().addActionListener(e->{
-            JFileChooser menu = window.getToolbarPanel().getFileChooser();
-            int estado = menu.showOpenDialog(window);
-            if (estado == JFileChooser.APPROVE_OPTION){
-                File archivo = menu.getSelectedFile();
-                if(!archivo.getName().toLowerCase().endsWith(".json")){
-                    throw new InvalidFileException(window, "Selecciona un arhivo .json");
-
-                }
-                else{
-                    FileController lector = new FileController(archivo.getAbsolutePath());
-                    scene.setShape2ds(lector.generateFigures());
-                    updateUI();
-                }
-            }
-        });
-
 
         // Selección
-        tb.getShapeSelector().addActionListener(e -> {
-            int i = tb.getShapeSelector().getSelectedIndex();
+        tb.onSelectShape(() -> {
+            int i = tb.getSelectedShapeIndex();
             selectShape(i);
         });
 
         //Remover figuras
-        tb.getBtnRemove().addActionListener(e -> 
+        tb.onRemoveShape(() -> 
         {
-            scene.removeShape(scene.getSelectedShape());
+             scene.removeShape(scene.getSelectedShape());
 
-            int newIndex = tb.getShapeSelector().getSelectedIndex() - 1;
+            int newIndex = tb.getSelectedShapeIndex() - 1;
 
             if(newIndex < 0 && scene.getShapes().size() > 0) 
             {
@@ -110,35 +87,83 @@ public class SceneController
 
         });
 
+
         final int STEP = 20;
         // Movimientos
-        tb.getBtnMoveUp().addActionListener(e -> moveSelected(0, -STEP));
-        tb.getBtnMoveDown().addActionListener(e -> moveSelected(0, STEP));
-        tb.getBtnMoveLeft().addActionListener(e -> moveSelected(-STEP, 0));
-        tb.getBtnMoveRight().addActionListener(e -> moveSelected(STEP, 0));
+        tb.onMoveDown(() -> moveSelected(0, STEP));
+        tb.onMoveUp(() -> moveSelected(0, -STEP));
+        tb.onMoveLeft(() -> moveSelected(-STEP, 0));
+        tb.onMoveRight(() -> moveSelected(STEP, 0));
+
+
 
         // Redimensionar
-        tb.getBtnApplySize().addActionListener(e -> {
+        tb.onApplySize(() -> {
             try {
-                int w = Integer.parseInt(tb.getTxtWidth().getText());
+                int w = Integer.parseInt(tb.getTxtWidth());
 
-                String heightText = tb.getTxtHeight().getText();
+                String heightText = tb.getTxtHeight();
                 
                 if(heightText.isEmpty()) {
-                    tb.getTxtHeight().setText("" + w);
+                    tb.setTxtHeight("" + w);
                 }
 
-                int h = Integer.parseInt(tb.getTxtHeight().getText());
+                int h = Integer.parseInt(tb.getTxtHeight());
                 resizeSelected(w, h);
             } catch (Exception ex) {
                 // mensaje lo maneja UI, aquí nada
             }
         });
+
+
+        //Leer archivo
+        tb.onReadArchive(() -> {
+            JFileChooser menu = window.getToolbarPanel().getFileChooser(); 
+            int estado = menu.showOpenDialog(window); 
+            if (estado == JFileChooser.APPROVE_OPTION)
+            { 
+                File archivo = menu.getSelectedFile(); 
+                if(!archivo.getName().toLowerCase().endsWith(".json"))
+                { 
+                    throw new InvalidFileException(window, "Selecciona un arhivo .json"); 
+                } 
+                else
+                { 
+                    FileController lector = new FileController(archivo.getAbsolutePath()); 
+                    scene.setShape2ds(lector.generateFigures()); 
+                    updateUI();
+                } 
+            }
+        });
+
+        //Generar archivo
+        tb.onGenerateArchive(() ->{ 
+            JFileChooser menu = window.getToolbarPanel().getFileChooser(); 
+            int estado = menu.showSaveDialog(window); 
+            if (estado == JFileChooser.APPROVE_OPTION)
+            { 
+                File ruta = menu.getSelectedFile();
+                SceneWriter escritor = new SceneWriter(scene.getShapes(), ruta.getAbsolutePath()+".json"); 
+                escritor.generateJSON(); 
+            }
+        });
+
+
+        tb.onCloneShape(() -> {
+            Shape2D selected = scene.getSelectedShape();
+            if(selected != null) 
+            {
+                Shape2D clone = selected.clone();
+                scene.addShape(clone);
+                updateUI();
+            }
+        });
+
     }
 
     public void selectShape(int index) 
     {
-        System.out.println("Shape selected, index: " + index);
+        System.out.println("Shape selected, index: " + index); //debug
         scene.selectShape(index);
         updateUI();
     }
@@ -174,7 +199,6 @@ public class SceneController
         // mostrar colisiones
         window.displayCollisions(scene.getCollisionReport());
     }
-
 
 
     private boolean createShapeWithDialog(ShapeType type) 

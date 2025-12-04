@@ -4,6 +4,9 @@ import javax.swing.*;
 
 import java.awt.*;
 
+/**
+ * Panel de la barra de herramientas
+ */
 public class ToolbarPanel extends JPanel 
 {
 
@@ -26,6 +29,8 @@ public class ToolbarPanel extends JPanel
     private JButton btnApplySize;
     private JButton btnGenerateArch;
     private JButton btnReadArchive;
+
+    private JButton btnCloneShape;
 
     public ToolbarPanel() 
     {
@@ -51,6 +56,8 @@ public class ToolbarPanel extends JPanel
         btnApplySize = new JButton("Apply Size");
         btnGenerateArch = new JButton("Generate Archive");
         btnReadArchive = new JButton("Read Archive");
+
+        btnCloneShape = new JButton("Clone Shape");
 
         fileChooser = new JFileChooser();
 
@@ -78,28 +85,94 @@ public class ToolbarPanel extends JPanel
         add(new JLabel("Manipulate Archives"));
         add(btnGenerateArch);
         add(btnReadArchive);
+
+        add(btnCloneShape);
+    }
+    
+    //Events
+
+    //Se usa Runnable para no usar ActionListener directamente en el controlador
+    //y mantener la separación entre vista y controlador
+    //Runnable es una interfaz funcional que permite pasar lambdas simples
+    public void onAddRectangle(Runnable r)
+    {
+        btnAddRectangle.addActionListener(e -> r.run());
     }
 
-    // ---------- Getters ----------
-    public JButton getBtnAddRectangle() { return btnAddRectangle; }
-    public JButton getBtnAddCircle() { return btnAddCircle; }
-    public JButton getBtnAddTriangle() { return btnAddTriangle; }
+    public void onAddCircle(Runnable r)
+    {
+        btnAddCircle.addActionListener(e -> r.run());
+    }
 
-    public JComboBox<String> getShapeSelector() { return shapeSelector; }
-    public JFileChooser getFileChooser(){ return fileChooser;}
+    public void onAddTriangle(Runnable r)
+    {
+        btnAddTriangle.addActionListener(e -> r.run());
+    }
 
-    public JButton getBtnRemove() { return btnRemove; }
-    public JButton getBtnMoveUp() { return btnMoveUp; }
-    public JButton getBtnMoveDown() { return btnMoveDown; }
-    public JButton getBtnMoveLeft() { return btnMoveLeft; }
-    public JButton getBtnMoveRight() { return btnMoveRight; }
+    public void onRemoveShape(Runnable r)
+    {
+        btnRemove.addActionListener(e -> r.run());
+    }
 
-    public JTextField getTxtWidth() { return txtWidth; }
-    public JTextField getTxtHeight() { return txtHeight; }
-    public JButton getBtnApplySize() { return btnApplySize; }
-    public JButton getBtnGenerateArchive(){return btnGenerateArch;}
-    public JButton getBtnReadArchive(){return btnReadArchive;}
+    public void onMoveUp(Runnable r)
+    {
+        btnMoveUp.addActionListener(e -> r.run());
+    }
 
+    public void onMoveDown(Runnable r)
+    {
+        btnMoveDown.addActionListener(e -> r.run());
+    }
+
+    public void onMoveLeft(Runnable r)
+    {
+        btnMoveLeft.addActionListener(e -> r.run());
+    }
+
+    public void onMoveRight(Runnable r)
+    {
+        btnMoveRight.addActionListener(e -> r.run());
+    }
+
+    public void onApplySize(Runnable r)
+    {
+        btnApplySize.addActionListener(e -> r.run());
+    }
+
+    public void onGenerateArchive(Runnable r)
+    {
+        btnGenerateArch.addActionListener(e -> r.run());
+    }
+
+    public void onReadArchive(Runnable r)
+    {
+        btnReadArchive.addActionListener(e -> r.run());
+    }
+
+    public void onSelectShape(Runnable r)
+    {
+        shapeSelector.addActionListener(e -> r.run());
+    }   
+
+    public void onCloneShape(Runnable r)
+    {
+        btnCloneShape.addActionListener(e -> r.run());
+    }
+
+
+    //Getters
+    public String getTxtWidth() { return txtWidth.getText(); }
+    public String getTxtHeight() { return txtHeight.getText(); }
+    public int getSelectedShapeIndex() { return shapeSelector.getSelectedIndex(); }
+    public JFileChooser getFileChooser() 
+    {
+        return fileChooser;
+    }
+
+
+    //Setters
+    public void setTxtWidth(String text) { txtWidth.setText(text); }
+    public void setTxtHeight(String text) { txtHeight.setText(text); }
 
     // ---------- ACTUALIZACIÓN SILENCIOSA DEL DROPDOWN ----------
     public void updateShapeList(java.util.List<String> names, int selectedIndex) 

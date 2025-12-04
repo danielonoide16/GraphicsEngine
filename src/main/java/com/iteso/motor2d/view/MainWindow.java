@@ -2,7 +2,6 @@ package com.iteso.motor2d.view;
 
 import javax.swing.*;
 import java.awt.*;
-import com.iteso.motor2d.controller.SceneController;
 
 public class MainWindow extends JFrame 
 {
@@ -14,7 +13,9 @@ public class MainWindow extends JFrame
     public MainWindow() 
     {
         setTitle("Game engine");
-        setSize(1980, 1080);
+        //setSize(1980, 1080);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize.width, screenSize.height); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -76,10 +77,5 @@ public class MainWindow extends JFrame
     public void displayCollisions(String text) 
     {
         collisionArea.setText(text);
-    }
-
-    public void setController(SceneController controller) 
-    {
-        controller.connectToolbar(toolbarPanel);
     }
 }

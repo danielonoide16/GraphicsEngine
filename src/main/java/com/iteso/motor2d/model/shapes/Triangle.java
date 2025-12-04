@@ -3,6 +3,7 @@ package com.iteso.motor2d.model.shapes;
 import java.awt.*;
 
 import com.iteso.motor2d.model.collision.CollisionMath;
+import com.iteso.motor2d.util.IdGenerator;
 
 /**
  * Representa un triángulo rectángulo definido por 3 vértices.
@@ -131,7 +132,7 @@ public class Triangle extends Shape2D
     @Override
     public Triangle clone() 
     {
-        return new Triangle(px, py, color, id);
+        return new Triangle(px, py, color, IdGenerator.getInstance().generateId());
     }
 
     @Override

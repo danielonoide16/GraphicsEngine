@@ -1,76 +1,72 @@
 package com.iteso.motor2d.io;
 
-// Dependencias para manipular jsons
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
 
 import com.iteso.motor2d.model.shapes.*;
+import com.iteso.motor2d.util.IdGenerator;
 
-public class SceneReader{
-    private JsonObject jsonShape;
-    private List<Shape2D> figuras;
+public class SceneReader {
+    private final JsonArray jsonArray;
+    private final List<Shape2D> figuras;
 
-    public SceneReader(JsonObject json){
-        this.jsonShape = json;
+    public SceneReader(JsonArray jsonArray) {
+        this.jsonArray = jsonArray;
         this.figuras = new ArrayList<>();
     }
 
-    // Dibujar las figuras
-    public List<Shape2D> createFigures(){
-        for(String key: jsonShape.keySet()){
-            // Extrayendo los datos y casteandolos a valores primitivos
-            JsonValue metadata = jsonShape.get(key);
-            JsonObject objetos = (JsonObject)metadata;  
-            String clase = objetos.getString("Clase");
-            int posX = objetos.getInt("PosicionX");
-            int posY = objetos.getInt("PosicionY");
+    public List<Shape2D> createFigures() {
+        for (JsonValue v : jsonArray) {
+            if (v.getValueType() != JsonValue.ValueType.OBJECT) continue;
+            JsonObject obj = v.asJsonObject();
 
-            int rgb = objetos.getInt("Colores");
-            Color color = new Color(rgb);
+            String clase = obj.getString("Clase");
+            int posX = obj.getInt("PosicionX");
+            int posY = obj.getInt("PosicionY");
 
-            JsonObject features = objetos.getJsonObject("UniqueFeatures");
-            
-            // dibujar las figuras
+            int rgb = obj.getInt("Colores");
+            Color color = new Color(rgb, true);
+
+            JsonObject features = obj.getJsonObject("UniqueFeatures");
+
             switch (clase) {
-                case "Circle":
+                case "Circle": {
                     int radius = features.getInt("Radio");
-                    figuras.add(createCircle(posX, posY, radius, Integer.parseInt(key), color));
+                    figuras.add(createCircle(posX, posY, radius, color));
                     break;
-                case "Triangle":
+                }
+                case "Triangle": {
                     int ancho = features.getInt("Ancho");
                     int alto = features.getInt("Altura");
-                    figuras.add(createTriangle(posX, posY, ancho, alto, Integer.parseInt(key), color));
+                    figuras.add(createTriangle(posX, posY, ancho, alto, color));
                     break;
-                case "Rectangle":
+                }
+                case "Rectangle": {
                     int width = features.getInt("Ancho");
                     int height = features.getInt("Altura");
-                    figuras.add(createRectangle(posX, posY, width, height, Integer.parseInt(key), color));
+                    figuras.add(createRectangle(posX, posY, width, height, color));
                     break;
+                }
                 default:
-                    System.out.println("Error al imprimir");
-                    System.out.println(clase.toString());
-                    break;
+                    System.out.println("Figura desconocida: " + clase);
             }
         }
         return figuras;
     }
-    
-    private Circle createCircle(int posX, int posY, int radius, int id, Color color){
-        Circle circulo = new Circle(posX, posY ,radius , color, id);
-        return circulo;
+
+    private Circle createCircle(int posX, int posY, int radius, Color color){
+        return new Circle(posX, posY, radius, color, IdGenerator.getInstance().generateId());
     }
 
-    private Triangle createTriangle(int posX, int posY, int width, int height, int id, Color color){
-        Triangle triangulo = new Triangle(posX, posY, width, height, color, id);
-        return triangulo;
-    } 
+    private Triangle createTriangle(int posX, int posY, int width, int height, Color color){
+        return new Triangle(posX, posY, width, height, color, IdGenerator.getInstance().generateId());
+    }
 
-    private Rectangle createRectangle(int posX, int posY, int width, int height, int id, Color color){
-        Rectangle rectangulo = new Rectangle(posX, posY, width, height, color, id);
-        return rectangulo;
+    private Rectangle createRectangle(int posX, int posY, int width, int height, Color color){
+        return new Rectangle(posX, posY, width, height, color, IdGenerator.getInstance().generateId());
     }
 }

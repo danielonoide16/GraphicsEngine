@@ -3,6 +3,7 @@ package com.iteso.motor2d.model.shapes;
 import java.awt.*;
 
 import com.iteso.motor2d.model.collision.CollisionMath;
+import com.iteso.motor2d.util.IdGenerator;
 
 /**
  * Representa un rectángulo
@@ -69,7 +70,7 @@ public class Rectangle extends Shape2D
     @Override
     public Rectangle clone() 
     {
-        return new Rectangle(x, y, width, height, color, id);
+        return new Rectangle(x, y, width, height, color, IdGenerator.getInstance().generateId());
     }
 
     // Getters y setters

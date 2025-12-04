@@ -10,8 +10,7 @@ public class Main {
         Scene scene = new Scene();
 
         SceneController controller = new SceneController(scene, window);
-
-        window.setController(controller);
+        controller.connect();
 
     }
 }
