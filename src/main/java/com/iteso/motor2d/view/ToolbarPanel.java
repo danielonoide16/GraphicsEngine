@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import java.awt.*;
 
+import java.util.List;
+
 /**
  * Panel de la barra de herramientas
  */
@@ -175,19 +177,18 @@ public class ToolbarPanel extends JPanel
     public void setTxtHeight(String text) { txtHeight.setText(text); }
 
     // ---------- ACTUALIZACIÓN SILENCIOSA DEL DROPDOWN ----------
-    public void updateShapeList(java.util.List<String> names, int selectedIndex) 
-    {
-        // Repoblar sin disparar eventos
-        shapeSelector.removeAllItems();
-        for (String s : names) 
-        {
-            shapeSelector.addItem(s);
-        }
+    public void updateShapeList(List<String> names, int selectedIndex) {
 
-        // Restaurar selección
+        var listeners = shapeSelector.getActionListeners();
+        for (var l : listeners) shapeSelector.removeActionListener(l);
+
+        shapeSelector.removeAllItems();
+        for (String s : names) shapeSelector.addItem(s);
+
         if (selectedIndex >= 0 && selectedIndex < names.size())
-        {
             shapeSelector.setSelectedIndex(selectedIndex);
-        }
+
+        for (var l : listeners) shapeSelector.addActionListener(l);
     }
+
 }
