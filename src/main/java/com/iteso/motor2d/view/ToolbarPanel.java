@@ -177,8 +177,9 @@ public class ToolbarPanel extends JPanel
     public void setTxtHeight(String text) { txtHeight.setText(text); }
 
     // ---------- ACTUALIZACIÓN SILENCIOSA DEL DROPDOWN ----------
-    public void updateShapeList(List<String> names, int selectedIndex) {
-
+    public void updateShapeList(List<String> names, int selectedIndex) 
+    {
+        // Guardar y remover listeners para evitar dispararlos durante la actualización
         var listeners = shapeSelector.getActionListeners();
         for (var l : listeners) shapeSelector.removeActionListener(l);
 
