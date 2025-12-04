@@ -9,6 +9,13 @@ import java.util.Objects;
  */
 public abstract class Shape2D implements Cloneable 
 {
+    public static enum ShapeType 
+    {
+        CIRCLE,
+        RECTANGLE,
+        TRIANGLE
+    }
+
 
     protected int x;      // posición X (centro o punto de referencia)
     protected int y;      // posición Y

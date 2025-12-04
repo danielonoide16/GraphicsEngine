@@ -14,14 +14,15 @@ import javax.swing.JTextField;
 import com.iteso.motor2d.io.SceneWriter;
 import com.iteso.motor2d.model.exceptions.InvalidFileException;
 import com.iteso.motor2d.model.scene.Scene;
+import com.iteso.motor2d.model.shapes.Shape2D.ShapeType;
 import com.iteso.motor2d.view.MainWindow;
 import com.iteso.motor2d.view.ToolbarPanel;
 
 public class SceneController 
 {
 
-    private Scene scene;
-    private MainWindow window;
+    private Scene scene; // el modelo
+    private MainWindow window; // la vista
 
     public SceneController(Scene scene, MainWindow window) 
     {
@@ -32,7 +33,7 @@ public class SceneController
     public void connectToolbar(ToolbarPanel tb) 
     {
         tb.getBtnAddRectangle().addActionListener(e -> {
-            if(createShapeWithDialog("rectangle"))
+            if(createShapeWithDialog(ShapeType.RECTANGLE))
                 updateUI();
             else
                 JOptionPane.showMessageDialog(window, "No se pudo crear el rectángulo", 
@@ -40,7 +41,7 @@ public class SceneController
         });
 
         tb.getBtnAddCircle().addActionListener(e -> {
-            if(createShapeWithDialog("circle"))
+            if(createShapeWithDialog(ShapeType.CIRCLE))
                 updateUI();
             else
                 JOptionPane.showMessageDialog(window, "No se pudo crear el círculo", 
@@ -48,7 +49,7 @@ public class SceneController
         });
 
         tb.getBtnAddTriangle().addActionListener(e -> {
-            if(createShapeWithDialog("triangle"))
+            if(createShapeWithDialog(ShapeType.TRIANGLE))
                 updateUI();
             else
                 JOptionPane.showMessageDialog(window, "No se pudo crear el triángulo", 
@@ -100,7 +101,7 @@ public class SceneController
             int newIndex = tb.getShapeSelector().getSelectedIndex() - 1;
 
             if(newIndex < 0 && scene.getShapes().size() > 0) 
-                {
+            {
                 newIndex = 0; // select first if we removed the first one
             }
 
@@ -176,7 +177,7 @@ public class SceneController
 
 
 
-    private boolean createShapeWithDialog(String type) 
+    private boolean createShapeWithDialog(ShapeType type) 
     {
         // panel dinámico según la figura
         JPanel panel = new JPanel();
@@ -195,20 +196,20 @@ public class SceneController
         JTextField txtA = new JTextField(5);
         JTextField txtB = new JTextField(5);
 
-        switch(type.toLowerCase()) {
-            case "rectangle":
+        switch(type) {
+            case ShapeType.RECTANGLE:
                 panel.add(new JLabel("Ancho:"));
                 panel.add(txtA);
                 panel.add(new JLabel("Alto:"));
                 panel.add(txtB);
                 break;
 
-            case "circle":
+            case ShapeType.CIRCLE:
                 panel.add(new JLabel("Radio:"));
                 panel.add(txtA);
                 break;
 
-            case "triangle":
+            case ShapeType.TRIANGLE:
                 panel.add(new JLabel("Base:"));
                 panel.add(txtA);
                 panel.add(new JLabel("Altura:"));
@@ -230,22 +231,22 @@ public class SceneController
             // Color
             Color color = JColorChooser.showDialog(window, "Elige color", Color.BLUE);
             if (color == null) return false;
-            switch(type.toLowerCase()) {
+            switch(type) {
 
-                case "rectangle": {
+                case ShapeType.RECTANGLE: {
                     int w = Integer.parseInt(txtA.getText());
                     int h = Integer.parseInt(txtB.getText());
                     scene.addRectangle(x, y, w, h, color);
                     return true;
                 }
 
-                case "circle": {
+                case ShapeType.CIRCLE: {
                     int r = Integer.parseInt(txtA.getText());
                     scene.addCircle(x, y, r, color);
                     return true;
                 }
 
-                case "triangle": {
+                case ShapeType.TRIANGLE: {
                     int base = Integer.parseInt(txtA.getText());
                     int height = Integer.parseInt(txtB.getText());
                     scene.addTriangle(x, y, base, height, color);

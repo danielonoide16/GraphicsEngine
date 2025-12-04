@@ -24,8 +24,8 @@ import java.util.List;
 public class Scene 
 {
 
-    private final List<Shape2D> shapes;
-    private Shape2D selectedShape;
+    private final List<Shape2D> shapes; 
+    private Shape2D selectedShape; // agregación porque la escena tiene una figura seleccionada pero la figura puede existir sin la escena
 
     public Scene() 
     {
@@ -83,7 +83,6 @@ public class Scene
         } 
         else 
         {
-            //System.out.println("Shape selected: " + shapes.get(index));
             selectedShape = shapes.get(index);
         }
     }
