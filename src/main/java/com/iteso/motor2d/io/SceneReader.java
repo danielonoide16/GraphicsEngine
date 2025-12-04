@@ -1,23 +1,19 @@
 package com.iteso.motor2d.io;
 
 // Dependencias para manipular jsons
-import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 
 import java.util.ArrayList;
-// Dependencias extra
 import java.util.List;
 import java.awt.Color;
 
-// Dependencias internas
 import com.iteso.motor2d.model.shapes.*;
 
 public class SceneReader{
     private JsonObject jsonShape;
     private List<Shape2D> figuras;
 
-    // Constructor
     public SceneReader(JsonObject json){
         this.jsonShape = json;
         this.figuras = new ArrayList<>();
@@ -38,7 +34,7 @@ public class SceneReader{
 
             JsonObject features = objetos.getJsonObject("UniqueFeatures");
             
-            // * Dibujar las figuras
+            // dibujar las figuras
             switch (clase) {
                 case "Circle":
                     int radius = features.getInt("Radio");

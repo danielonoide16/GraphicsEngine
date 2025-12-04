@@ -3,7 +3,6 @@ package com.iteso.motor2d.controller;
 import java.awt.Color;
 import java.io.File;
 
-import javax.print.attribute.standard.JobKOctetsProcessed;
 import javax.swing.BoxLayout;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
@@ -59,7 +58,7 @@ public class SceneController
         // Generador del json
         tb.getBtnGenerateArchive().addActionListener(e->{
             JFileChooser menu = window.getToolbarPanel().getFileChooser();
-            int estado = menu.showOpenDialog(window);
+            int estado = menu.showSaveDialog(window);
             if (estado == JFileChooser.APPROVE_OPTION){
                 File ruta = menu.getSelectedFile();
                 SceneWriter escritor = new SceneWriter(scene.getShapes(), ruta.getAbsolutePath()+".json");
@@ -83,9 +82,7 @@ public class SceneController
                     scene.setShape2ds(lector.generateFigures());
                     updateUI();
                 }
-                
             }
-            
         });
 
 

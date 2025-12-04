@@ -1,18 +1,12 @@
 package com.iteso.motor2d.io;
 
-import com.iteso.motor2d.model.exceptions.InvalidFileException;
-// Importar la clase SHAPE2D
 import com.iteso.motor2d.model.shapes.*;
 
-// Importar dependencias específicas 
 import java.util.List;
 import java.awt.Color;
 import java.io.FileOutputStream;
 
-// Dependencias para crear un json
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonArray;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonWriter;
 
